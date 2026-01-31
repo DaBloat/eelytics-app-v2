@@ -1,7 +1,36 @@
-import { Text, KeyboardAvoidingView, StyleSheet, Image, Platform, TextInput, TouchableOpacity, View } from "react-native";
+import { Text, KeyboardAvoidingView, StyleSheet, Image, Platform, TextInput, TouchableOpacity, View, Alert } from "react-native";
+import { use, useState } from "react";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function LoginScr() { 
+export default function LoginScr({ navigation }) { 
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [loading, setLoading] = useState(false)
+
+    const handleLogin = async() => {
+        console.log(`Username is ${username}`)
+        console.log(`Password is ${password}`)
+        
+        setLoading(true)
+
+        const response = await fetch('-/api/accounts/login',
+                                {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type':'application/json',
+                                        
+                                    },
+                                    body: JSON.stringify({
+                                    username: username,
+                                    password: password
+                                    })
+                                })
+            
+        const data = await response.json()
+        console.log(data)
+        console.log(response.status)
+    }
+
     return (
         <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -18,6 +47,8 @@ export default function LoginScr() {
                 <TextInput 
                     style={styles.input_text}
                     placeholder="Username"
+                    value={username}
+                    onChangeText={setUsername}
                     placeholderTextColor="gray"
                     />
             </View>
@@ -27,11 +58,13 @@ export default function LoginScr() {
                 <TextInput 
                     style={styles.input_text}
                     placeholder="Password"
+                    value={password}
+                    onChangeText={setPassword}
                     placeholderTextColor="gray"
                     secureTextEntry/>
             </View>
 
-            <TouchableOpacity style={styles.login_button}>
+            <TouchableOpacity style={styles.login_button} onPress={handleLogin}>
                 <Text style={styles.login_button_text}>LOGIN</Text>
             </TouchableOpacity>
 
