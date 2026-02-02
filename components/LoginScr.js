@@ -1,11 +1,12 @@
 import { Text, KeyboardAvoidingView, StyleSheet, Image, Platform, TextInput, TouchableOpacity, View, Alert } from "react-native";
-import { use, useState } from "react";
+import { useState } from "react";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function LoginScr({ navigation }) { 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
+    const [isPassVisible, setPassVisibility] = useState(false)
 
     const handleLogin = async() => {
         console.log(`Username is ${username}`)
@@ -13,7 +14,7 @@ export default function LoginScr({ navigation }) {
         
         setLoading(true)
 
-        const response = await fetch('-/api/accounts/login',
+        const response = await fetch('https://unfauceted-irene-contextually.ngrok-free.dev/api/accounts/login',
                                 {
                                     method: 'POST',
                                     headers: {
@@ -29,6 +30,10 @@ export default function LoginScr({ navigation }) {
         const data = await response.json()
         console.log(data)
         console.log(response.status)
+    }
+
+    const goToSignUp = () => {
+        navigation.navigate('Signup')
     }
 
     return (
@@ -61,7 +66,14 @@ export default function LoginScr({ navigation }) {
                     value={password}
                     onChangeText={setPassword}
                     placeholderTextColor="gray"
-                    secureTextEntry/>
+                    secureTextEntry={!isPassVisible}/>
+                <TouchableOpacity onPress={() => setPassVisibility(!isPassVisible)}>
+                    <MaterialCommunityIcons
+                        name={isPassVisible ? 'eye':'eye-off'}
+                        size={20}
+                        color='gray'
+                        />
+                </TouchableOpacity>
             </View>
 
             <TouchableOpacity style={styles.login_button} onPress={handleLogin}>
@@ -78,7 +90,7 @@ export default function LoginScr({ navigation }) {
                 <View style={styles.dividerLine}/>
             </View>
 
-            <TouchableOpacity style={styles.signup_button}>
+            <TouchableOpacity style={styles.signup_button} onPress={goToSignUp}>
                 <Text style={styles.login_button_text}>SIGN UP</Text>
             </TouchableOpacity>
 
@@ -88,6 +100,7 @@ export default function LoginScr({ navigation }) {
 
 const styles = StyleSheet.create({
     login_container: {
+        backgroundColor: 'transparent',
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',

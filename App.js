@@ -5,13 +5,14 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import LoginScr from './components/LoginScr'
+import SignupScr from './components/SignupScr';
 
 const Stack = createStackNavigator()
 
 const tranparent = {...DefaultTheme, 
                     colors: {
                       ...DefaultTheme.colors,
-                      card: 'tranparent',
+                      card: 'transparent',
                       background: 'transparent'
                     }}
 
@@ -23,6 +24,7 @@ export default function App() {
         <NavigationContainer theme={tranparent}>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={LoginScr}/>
+            <Stack.Screen name="Signup" component={SignupScr}/>
           </Stack.Navigator>
         </NavigationContainer>
       </View>
