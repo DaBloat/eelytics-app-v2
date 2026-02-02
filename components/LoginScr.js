@@ -80,9 +80,11 @@ export default function LoginScr({ navigation }) {
                 <Text style={styles.login_button_text}>LOGIN</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.forgot_button}>
-                <Text style={styles.forgot_button_text}>Forgot Password?</Text>
-            </TouchableOpacity>
+            <View style={styles.forgot_button_container}>
+                <TouchableOpacity style={styles.forgot_button}>
+                    <Text style={styles.forgot_button_text}>Forgot Password?</Text>
+                </TouchableOpacity>
+            </View>
 
             <View style={styles.dividerContainer}>
                 <View style={styles.dividerLine}/>
@@ -153,9 +155,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'white'
     },
-    forgot_button: {
+    forgot_button_container: {
         alignItems: 'flex-end',
         width: '100%',
+    },
+    forgot_button: {
         marginTop: 15
     },
     forgot_button_text: {
