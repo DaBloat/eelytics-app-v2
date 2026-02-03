@@ -11,6 +11,11 @@ export default function LoginScr({ navigation }) {
     const handleLogin = async() => {
         console.log(`Username is ${username}`)
         console.log(`Password is ${password}`)
+
+        if (!username.trim() || !password.trim()) {
+            console.log('Complete the Field!')
+            return;
+        }
         
         setLoading(true)
 
@@ -30,6 +35,8 @@ export default function LoginScr({ navigation }) {
         const data = await response.json()
         console.log(data)
         console.log(response.status)
+
+        setLoading(false)
     }
 
     const goToSignUp = () => {

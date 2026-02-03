@@ -1,9 +1,89 @@
-import { TextInput, KeyboardAvoidingView, View, Text, TouchableOpacity, StyleSheet, Platform, ScrollView, TouchableWithoutFeedback, Keyboard} from 'react-native'
+import { Alert, TextInput, KeyboardAvoidingView, View, Text, TouchableOpacity, StyleSheet, Platform, ScrollView, TouchableWithoutFeedback, Keyboard} from 'react-native'
 import { useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
+const dynamicBackground = (username) => {
+  const palette = [
+    '#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', 
+    '#2196F3', '#03A9F4', '#00BCD4', '#009688', '#4CAF50', 
+    '#8BC34A', '#CDDC39', '#FFC107', '#FF9800', '#FF5722'
+  ];
+
+  if (!username || username.trim() === '') return '#D3D3D3';
+
+  let hash = 0;
+  for (let i = 0; i < username.length; i++) {
+    hash = username.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  
+  const index = Math.abs(hash) % palette.length;
+  return palette[index];
+};
+
 export default function SignupScr({ navigation }){
-    
+    const [firstName, setFirstName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [suffix, setSuffix] = useState("")
+    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+    const [loading, setLoading] = useState(false)
+
+    const handleSignUp = async() => {
+
+        if (!firstName.trim() || !lastName.trim() || !username.trim() || !email.trim() || !password.trim() || !confirmPassword.trim() ) {
+            Alert.alert('FILL UP ALL FIELDS', 'FILL UP ALL FIELDS')
+            return
+        }
+
+        if (password !== confirmPassword){
+            console.log('PASSWORDS NOT MATCH')
+            return
+        }
+
+        if (!/[A-Z]/.test(password)) {
+            console.log('NEED THE PASSWORD HAS ATLEAST 1 CAPITAL LETTER')
+            return
+        }
+
+        if (!/\d/.test(password)) {
+            console.log('NEED ATLEAST 1 NUMBER')
+            return
+        }
+
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            console.log('NEED ATLEAST 1 SPECIAL CHARACTER')
+            return
+        }
+
+        if (password.length < 8) {
+            console.log('PASSWORD SHOULD BE ATLEAST 8 CHARACTERS')
+            return
+        }
+
+        setLoading(true)
+
+        const response = await fetch('https://unfauceted-irene-contextually.ngrok-free.dev/api/accounts/signup',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                },
+                body: JSON.stringify({
+                    fn: firstName,
+                    ln: lastName,
+                    suf: suffix,
+                    usr: username,
+                    em: email,
+                    pas: password,
+                })
+            }
+        )
+
+        const data = await response.json()
+        console.log(data)
+    }
 
     const goToLogin = () => {
         navigation.goBack('Login')
@@ -18,19 +98,23 @@ export default function SignupScr({ navigation }){
                     <MaterialCommunityIcons name='arrow-left-thin' size={35} color='gray'/>
                 </TouchableOpacity>
             </View>
-            <ScrollView
-            contentContainerStyle={{ width:'100%', flexGrow:1, alignItems: 'center', justifyContent:'center'}}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}>
                         <Text style={style.title}>Let's Get Started!</Text>
                         <Text style={style.subtitle}>Fill out all required fields</Text>
-                        <View style={[style.circle, { backgroundColor: '#F44336' }]}>
-                            <Text style={style.avatarText}>T</Text>
+            <ScrollView
+            contentContainerStyle={{ width: '100%', flexGrow:1, alignItems: 'center', justifyContent:'flex-start'}}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}>
+                        <View style={[style.circle, { backgroundColor: dynamicBackground(username) }]}>
+                            <Text style={style.avatarText}>
+                                {username.trim() ? username.trim().charAt(0).toUpperCase() : '?' }
+                            </Text>
                         </View>
                         <View style={style.input_container}>
                             <MaterialCommunityIcons name='account-outline' size={20} color={'gray'}/>
                             <TextInput
                                 style={style.input_text}
+                                value={firstName}
+                                onChangeText={setFirstName}
                                 placeholder='First Name*'
                                 placeholderTextColor='gray'/>
                         </View>
@@ -39,6 +123,8 @@ export default function SignupScr({ navigation }){
                             <MaterialCommunityIcons name='account-group-outline' size={20} color={'gray'}/>
                             <TextInput
                                 style={style.input_text}
+                                value={lastName}
+                                onChangeText={setLastName}
                                 placeholder='Last Name*'
                                 placeholderTextColor='gray'/>
                         </View>
@@ -47,6 +133,8 @@ export default function SignupScr({ navigation }){
                             <MaterialCommunityIcons name='card-text-outline' size={20} color={'gray'}/>
                             <TextInput
                                 style={style.input_text}
+                                value={suffix}
+                                onChangeText={setSuffix}
                                 placeholder='Suffix'
                                 placeholderTextColor='gray'/>
                         </View>
@@ -55,6 +143,8 @@ export default function SignupScr({ navigation }){
                             <MaterialCommunityIcons name='at' size={20} color={'gray'}/>
                             <TextInput
                                 style={style.input_text}
+                                value={username}
+                                onChangeText={setUsername}
                                 placeholder='Username*'
                                 placeholderTextColor='gray'/>
                         </View>
@@ -63,6 +153,8 @@ export default function SignupScr({ navigation }){
                             <MaterialCommunityIcons name='email-outline' size={20} color={'gray'}/>
                             <TextInput
                                 style={style.input_text}
+                                value={email}
+                                onChangeText={setEmail}
                                 placeholder='Email*'
                                 placeholderTextColor='gray'/>
                         </View>
@@ -71,19 +163,27 @@ export default function SignupScr({ navigation }){
                             <MaterialCommunityIcons name='lock-outline' size={20} color={'gray'}/>
                             <TextInput
                                 style={style.input_text}
+                                value={password}
+                                onChangeText={setPassword}
                                 placeholder='Password*'
-                                placeholderTextColor='gray'/>
+                                placeholderTextColor='gray'
+                                secureTextEntry/>
                         </View>
 
                         <View style={style.input_container}>
                             <MaterialCommunityIcons name='lock-check-outline' size={20} color={'gray'}/>
                             <TextInput
                                 style={style.input_text}
+                                value={confirmPassword}
+                                onChangeText={setConfirmPassword}
                                 placeholder='Confirm Password*'
-                                placeholderTextColor='gray'/>
+                                placeholderTextColor='gray'
+                                secureTextEntry/>
                         </View>
 
-                        <TouchableOpacity style={style.signup_button}>
+                        <Text style={style.foot_text}>By signing up, you agree to our Terms of Service and Privacy Policy.</Text>
+
+                        <TouchableOpacity style={style.signup_button} onPress={handleSignUp}>
                             <Text style={style.signup_button_text}>SIGN UP</Text>
                         </TouchableOpacity>
             </ScrollView>            
@@ -113,7 +213,7 @@ const style = StyleSheet.create({
         borderColor: 'rgba(0, 122, 255, 1)',
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 25
+        marginVertical: 10
     },
     avatarText: {
         fontSize: 65,
@@ -140,7 +240,7 @@ const style = StyleSheet.create({
     title: {
         color: 'white',
         fontSize: 35,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     subtitle: {
         fontSize: 16,
@@ -153,11 +253,15 @@ const style = StyleSheet.create({
         backgroundColor: 'rgba(0, 122, 255, 0.8)',
         borderRadius: 10,
         height: 35
-
     },
     signup_button_text: {
         fontWeight: 'bold',
         fontSize: 16,
         color: 'white'
     },
+    foot_text: {
+        color: 'gray',
+        fontSize: 12,
+        paddingHorizontal: 5
+    }
 })
