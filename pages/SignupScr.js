@@ -2,6 +2,9 @@ import { Alert, TextInput, KeyboardAvoidingView, View, Text, TouchableOpacity, S
 import { useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
+import InputField from '../components/InputField';
+import PasswordField from '../components/PasswordField';
+
 const dynamicBackground = (username) => {
   const palette = [
     '#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', 
@@ -29,6 +32,9 @@ export default function SignupScr({ navigation }){
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [loading, setLoading] = useState(false)
+    const [isPassVisible, setPassVisibility] = useState(false)
+    const [isConPassVisible, setConPassVisibility] = useState(false)
+
 
     const handleSignUp = async() => {
 
@@ -109,77 +115,28 @@ export default function SignupScr({ navigation }){
                                 {username.trim() ? username.trim().charAt(0).toUpperCase() : '?' }
                             </Text>
                         </View>
-                        <View style={style.input_container}>
-                            <MaterialCommunityIcons name='account-outline' size={20} color={'gray'}/>
-                            <TextInput
-                                style={style.input_text}
-                                value={firstName}
-                                onChangeText={setFirstName}
-                                placeholder='First Name*'
-                                placeholderTextColor='gray'/>
-                        </View>
 
-                        <View style={style.input_container}>
-                            <MaterialCommunityIcons name='account-group-outline' size={20} color={'gray'}/>
-                            <TextInput
-                                style={style.input_text}
-                                value={lastName}
-                                onChangeText={setLastName}
-                                placeholder='Last Name*'
-                                placeholderTextColor='gray'/>
-                        </View>
+                        <InputField name="account-outline" value={firstName} onChangeText={setFirstName} placeholder="First Name *"/>
+                        <InputField name="account-group-outline" value={lastName} onChangeText={setLastName} placeholder="Last Name *"/>
+                        <InputField name="card-text-outline" value={suffix} onChangeText={setSuffix} placeholder="Suffix" />
+                        <InputField name="at" value={username} onChangeText={setUsername} placeholder="Username *"/>
+                        <InputField name="email-outline" value={email} onChangeText={setEmail} placeholder="Email *" />
 
-                        <View style={style.input_container}>
-                            <MaterialCommunityIcons name='card-text-outline' size={20} color={'gray'}/>
-                            <TextInput
-                                style={style.input_text}
-                                value={suffix}
-                                onChangeText={setSuffix}
-                                placeholder='Suffix'
-                                placeholderTextColor='gray'/>
-                        </View>
+                        <PasswordField 
+                            name='lock-outline' 
+                            value={password} 
+                            onChangeText={setPassword} 
+                            placeholder="Password *" 
+                            setPassVisiblity={setPassVisibility}
+                            isPassVisible={isPassVisible}/>
 
-                        <View style={style.input_container}>
-                            <MaterialCommunityIcons name='at' size={20} color={'gray'}/>
-                            <TextInput
-                                style={style.input_text}
-                                value={username}
-                                onChangeText={setUsername}
-                                placeholder='Username*'
-                                placeholderTextColor='gray'/>
-                        </View>
-
-                        <View style={style.input_container}>
-                            <MaterialCommunityIcons name='email-outline' size={20} color={'gray'}/>
-                            <TextInput
-                                style={style.input_text}
-                                value={email}
-                                onChangeText={setEmail}
-                                placeholder='Email*'
-                                placeholderTextColor='gray'/>
-                        </View>
-
-                        <View style={style.input_container}>
-                            <MaterialCommunityIcons name='lock-outline' size={20} color={'gray'}/>
-                            <TextInput
-                                style={style.input_text}
-                                value={password}
-                                onChangeText={setPassword}
-                                placeholder='Password*'
-                                placeholderTextColor='gray'
-                                secureTextEntry/>
-                        </View>
-
-                        <View style={style.input_container}>
-                            <MaterialCommunityIcons name='lock-check-outline' size={20} color={'gray'}/>
-                            <TextInput
-                                style={style.input_text}
-                                value={confirmPassword}
-                                onChangeText={setConfirmPassword}
-                                placeholder='Confirm Password*'
-                                placeholderTextColor='gray'
-                                secureTextEntry/>
-                        </View>
+                        <PasswordField 
+                            name='lock-check-outline' 
+                            value={confirmPassword} 
+                            onChangeText={setConfirmPassword} 
+                            placeholder="Confirm Password *" 
+                            setPassVisiblity={setConPassVisibility}
+                            isPassVisible={isConPassVisible}/>
 
                         <Text style={style.foot_text}>By signing up, you agree to our Terms of Service and Privacy Policy.</Text>
 

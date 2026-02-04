@@ -4,8 +4,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import LoginScr from './components/LoginScr'
-import SignupScr from './components/SignupScr';
+import LoginScr from './pages/LoginScr'
+import SignupScr from './pages/SignupScr';
 
 const Stack = createStackNavigator()
 

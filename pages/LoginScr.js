@@ -1,6 +1,8 @@
 import { Text, KeyboardAvoidingView, StyleSheet, Image, Platform, TextInput, TouchableOpacity, View, Alert } from "react-native";
 import { useState } from "react";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import InputField from "../components/InputField";
+import PasswordField from "../components/PasswordField";
 
 export default function LoginScr({ navigation }) { 
     const [username, setUsername] = useState("")
@@ -54,34 +56,14 @@ export default function LoginScr({ navigation }) {
 
             <Text style={styles.subtitle}>Sign in to continue</Text>
 
-            <View style={styles.input_container}>
-                <MaterialCommunityIcons name="account-outline" size={20} color={'gray'}/>
-                <TextInput 
-                    style={styles.input_text}
-                    placeholder="Username"
-                    value={username}
-                    onChangeText={setUsername}
-                    placeholderTextColor="gray"
-                    />
-            </View>
-
-            <View style={styles.input_container}>
-                <MaterialCommunityIcons name="lock-outline" size={20} color={'gray'}/>
-                <TextInput 
-                    style={styles.input_text}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    placeholderTextColor="gray"
-                    secureTextEntry={!isPassVisible}/>
-                <TouchableOpacity onPress={() => setPassVisibility(!isPassVisible)}>
-                    <MaterialCommunityIcons
-                        name={isPassVisible ? 'eye':'eye-off'}
-                        size={20}
-                        color='gray'
-                        />
-                </TouchableOpacity>
-            </View>
+            <InputField name="account-outline" placeholder='Username' value={username} onChangeText={setUsername}/>
+            <PasswordField 
+                name="lock-outline" 
+                placeholder='Password' 
+                value={password} 
+                onChangeText={setPassword} 
+                isPassVisible={isPassVisible} 
+                setPassVisiblity={setPassVisibility}/>
 
             <TouchableOpacity style={styles.login_button} onPress={handleLogin}>
                 <Text style={styles.login_button_text}>LOGIN</Text>
