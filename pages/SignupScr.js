@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import InputField from '../components/InputField';
 import PasswordField from '../components/PasswordField';
+import PopUp from '../components/PopUp';
 
 const dynamicBackground = (username) => {
   const palette = [
@@ -34,37 +35,67 @@ export default function SignupScr({ navigation }){
     const [loading, setLoading] = useState(false)
     const [isPassVisible, setPassVisibility] = useState(false)
     const [isConPassVisible, setConPassVisibility] = useState(false)
+    const [statesPop, setStatesPop ] = useState({
+        visible: false,
+        title: '',
+        description: '',
+        status: 'success'
+    })
 
 
     const handleSignUp = async() => {
 
         if (!firstName.trim() || !lastName.trim() || !username.trim() || !email.trim() || !password.trim() || !confirmPassword.trim() ) {
-            Alert.alert('FILL UP ALL FIELDS', 'FILL UP ALL FIELDS')
+            setStatesPop({visible:true,
+                          title: 'Wait a Sec...',
+                          description: "Don't skip the * fields!",
+                          status: 'warning'
+            })
             return
         }
 
         if (password !== confirmPassword){
-            console.log('PASSWORDS NOT MATCH')
+            setStatesPop({visible:true,
+                          title: 'Yikes!',
+                          description: "Those passwords look different.",
+                          status: 'error'
+            })
             return
         }
 
         if (!/[A-Z]/.test(password)) {
-            console.log('NEED THE PASSWORD HAS ATLEAST 1 CAPITAL LETTER')
+            setStatesPop({visible:true,
+                          title: 'Low Energy',
+                          description: "Add aleast one CAPITAL letter to your pass.",
+                          status: 'warning'
+            })
             return
         }
 
         if (!/\d/.test(password)) {
-            console.log('NEED ATLEAST 1 NUMBER')
+            setStatesPop({visible:true,
+                          title: 'Missing Digits',
+                          description: "Add aleast one number to your password.",
+                          status: 'warning'
+            })
             return
         }
 
         if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-            console.log('NEED ATLEAST 1 SPECIAL CHARACTER')
+            setStatesPop({visible:true,
+                          title: 'Too plain',
+                          description: "Spice it up your password with symbols.",
+                          status: 'warning'
+            })
             return
         }
 
         if (password.length < 8) {
-            console.log('PASSWORD SHOULD BE ATLEAST 8 CHARACTERS')
+            setStatesPop({visible:true,
+                          title: 'Too short',
+                          description: "Password needs at least 8 characters.",
+                          status: 'warning'
+            })
             return
         }
 
@@ -89,6 +120,15 @@ export default function SignupScr({ navigation }){
 
         const data = await response.json()
         console.log(data)
+        console.log(response.status)
+
+        if (response.status === 409) {
+            setStatesPop({visible: true,
+                          title: 'Déjà Vu?',
+                          description: data.message,
+                          status: data.status
+            })
+        }
     }
 
     const goToLogin = () => {
@@ -143,7 +183,10 @@ export default function SignupScr({ navigation }){
                         <TouchableOpacity style={style.signup_button} onPress={handleSignUp}>
                             <Text style={style.signup_button_text}>SIGN UP</Text>
                         </TouchableOpacity>
-            </ScrollView>            
+            </ScrollView>
+
+            <PopUp states={statesPop} setStates={setStatesPop}/>
+
         </KeyboardAvoidingView>
     )
 }

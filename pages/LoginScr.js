@@ -3,19 +3,30 @@ import { useState } from "react";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import InputField from "../components/InputField";
 import PasswordField from "../components/PasswordField";
+import PopUp from "../components/PopUp";
 
 export default function LoginScr({ navigation }) { 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
     const [isPassVisible, setPassVisibility] = useState(false)
+    const [statesPop, setStatesPop ] = useState({
+        visible: false,
+        title: '',
+        description: '',
+        status: 'success'
+    })
 
     const handleLogin = async() => {
         console.log(`Username is ${username}`)
         console.log(`Password is ${password}`)
 
         if (!username.trim() || !password.trim()) {
-            console.log('Complete the Field!')
+            setStatesPop({visible:true,
+                          title: 'Whoops!',
+                          description: 'You forgot to fill in your login details.',
+                          status: 'warning'
+            })
             return;
         }
         
@@ -37,6 +48,14 @@ export default function LoginScr({ navigation }) {
         const data = await response.json()
         console.log(data)
         console.log(response.status)
+
+        if (response.status === 401) {
+            setStatesPop({visible: true,
+                          title: 'Uh-oh!',
+                          description: data.message,
+                          status: data.status
+            })
+        }
 
         setLoading(false)
     }
@@ -84,6 +103,8 @@ export default function LoginScr({ navigation }) {
             <TouchableOpacity style={styles.signup_button} onPress={goToSignUp}>
                 <Text style={styles.login_button_text}>SIGN UP</Text>
             </TouchableOpacity>
+
+            <PopUp states={statesPop} setStates={setStatesPop}/>
 
         </KeyboardAvoidingView>
     );
