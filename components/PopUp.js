@@ -1,4 +1,4 @@
-import { View, Modal, TouchableOpacity, Text, Image, StyleSheet} from 'react-native'
+import { View, Modal, TouchableOpacity, Text, Image, StyleSheet, ActivityIndicator } from 'react-native'
 
 export default function PopUp({ states, setStates }) {
     const imageEel = { 'success': {img: require('../assets/success.png'),
@@ -6,7 +6,9 @@ export default function PopUp({ states, setStates }) {
                        'error':  {img: require('../assets/error.png'),
                                   color: '#FF5252'},
                        'warning': {img: require('../assets/warning.png'),
-                                   color: '#FFC107'}
+                                   color: '#FFC107'},
+                       'loading': {img:require('../assets/loading.png'),
+                                   color: 'rgba(0, 122, 255, 1)'}
     }
 
     const curr = imageEel[states.status]
@@ -18,11 +20,15 @@ export default function PopUp({ states, setStates }) {
                     <Image source={curr.img} style={styles.imgStatus}/>
                     <Text style={[styles.title, { color: curr.color }]}>{states.title}</Text>
                     <Text style={styles.subtitle}>{states.description}</Text>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={[styles.button, { backgroundColor: curr.color }]} onPress={() => setStates({...states, visible:false})}>
-                            <Text style={styles.buttonText}>OK</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {states.status === 'loading' || states.status === 'success'  ? (
+                        <ActivityIndicator size="large" color={curr.color } />
+                    ) : (
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={[styles.button, { backgroundColor: curr.color }]} onPress={() => setStates({...states, visible:false})}>
+                                <Text style={styles.buttonText}>OK</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
                 </View>
             </View>
         </Modal>

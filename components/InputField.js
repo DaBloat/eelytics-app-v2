@@ -2,7 +2,7 @@ import { View, TextInput, StyleSheet } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 
-export default function InputField({name, placeholder, value, onChangeText}) {
+export default function InputField({name, placeholder, value, onChangeText, keyboardType}) {
     return (
         <View style={styles.input_container}>
             <MaterialCommunityIcons name={name} size={20} color={'gray'}/>
@@ -11,7 +11,10 @@ export default function InputField({name, placeholder, value, onChangeText}) {
                 placeholder={placeholder}
                 placeholderTextColor='gray'
                 value={value}
-                onChangeText={onChangeText}>
+                onChangeText={onChangeText}
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType={keyboardType}>
             </TextInput>
         </View>
     )

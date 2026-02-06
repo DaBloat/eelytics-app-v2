@@ -11,7 +11,9 @@ export default function PasswordField({name, placeholder, value, onChangeText, i
                 placeholderTextColor='gray'
                 value={value}
                 onChangeText={onChangeText}
-                secureTextEntry={!isPassVisible}/>
+                secureTextEntry={!isPassVisible}
+                autoCapitalize="none"
+                autoCorrect={false}/>
             <TouchableOpacity onPress={() => {setPassVisiblity(!isPassVisible)}}>
                 <MaterialCommunityIcons
                 name={isPassVisible ? 'eye':'eye-off'}

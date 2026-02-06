@@ -100,6 +100,11 @@ export default function SignupScr({ navigation }){
         }
 
         setLoading(true)
+        setStatesPop({visible: true,
+                          title: 'Initializing...',
+                          description: 'Creating your space.',
+                          status: 'loading'
+        })
 
         const response = await fetch('https://unfauceted-irene-contextually.ngrok-free.dev/api/accounts/signup',
             {
@@ -128,6 +133,19 @@ export default function SignupScr({ navigation }){
                           description: data.message,
                           status: data.status
             })
+            return;
+        }
+
+        if (response.status === 201) {
+            setStatesPop({visible: true,
+                          title: 'Account Created!',
+                          description: data.message,
+                          status: data.status
+            })
+            setTimeout(() => {
+                setStatesPop({...statesPop, visible: false})
+                navigation.replace('Login')
+            }, 1500)
         }
     }
 
@@ -156,11 +174,11 @@ export default function SignupScr({ navigation }){
                             </Text>
                         </View>
 
-                        <InputField name="account-outline" value={firstName} onChangeText={setFirstName} placeholder="First Name *"/>
-                        <InputField name="account-group-outline" value={lastName} onChangeText={setLastName} placeholder="Last Name *"/>
-                        <InputField name="card-text-outline" value={suffix} onChangeText={setSuffix} placeholder="Suffix" />
-                        <InputField name="at" value={username} onChangeText={setUsername} placeholder="Username *"/>
-                        <InputField name="email-outline" value={email} onChangeText={setEmail} placeholder="Email *" />
+                        <InputField name="account-outline" value={firstName} onChangeText={setFirstName} placeholder="First Name *" keyboardType='default'/>
+                        <InputField name="account-group-outline" value={lastName} onChangeText={setLastName} placeholder="Last Name *" keyboardType='default'/>
+                        <InputField name="card-text-outline" value={suffix} onChangeText={setSuffix} placeholder="Suffix" keyboardType='default' />
+                        <InputField name="at" value={username} onChangeText={setUsername} placeholder="Username *" keyboardType='default'/>
+                        <InputField name="email-outline" value={email} onChangeText={setEmail} placeholder="Email *" keyboardType='email-address'/>
 
                         <PasswordField 
                             name='lock-outline' 

@@ -32,6 +32,12 @@ export default function LoginScr({ navigation }) {
         
         setLoading(true)
 
+        setStatesPop({visible: true,
+                          title: 'One sec...',
+                          description: 'Just feeding the server eels.',
+                          status: 'loading'
+        })
+
         const response = await fetch('https://unfauceted-irene-contextually.ngrok-free.dev/api/accounts/login',
                                 {
                                     method: 'POST',
@@ -55,8 +61,20 @@ export default function LoginScr({ navigation }) {
                           description: data.message,
                           status: data.status
             })
+            return;
         }
 
+        if (response.status === 200) {
+            setStatesPop({visible: true,
+                          title: 'Account Created!',
+                          description: data.message,
+                          status: data.status
+            })
+            setTimeout(()=>{
+                setStatesPop({...statesPop, visible: false}
+                )}, 1500)
+
+        }
         setLoading(false)
     }
 
@@ -75,7 +93,7 @@ export default function LoginScr({ navigation }) {
 
             <Text style={styles.subtitle}>Sign in to continue</Text>
 
-            <InputField name="account-outline" placeholder='Username' value={username} onChangeText={setUsername}/>
+            <InputField name="account-outline" placeholder='Username' value={username} onChangeText={setUsername} keyboardType='default'/>
             <PasswordField 
                 name="lock-outline" 
                 placeholder='Password' 
