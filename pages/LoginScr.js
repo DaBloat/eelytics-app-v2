@@ -66,14 +66,14 @@ export default function LoginScr({ navigation }) {
 
         if (response.status === 200) {
             setStatesPop({visible: true,
-                          title: 'Account Created!',
+                          title: 'Login Success!',
                           description: data.message,
                           status: data.status
             })
             setTimeout(()=>{
                 setStatesPop({...statesPop, visible: false}
                 )}, 1500)
-
+            navigation.replace('Home')
         }
         setLoading(false)
     }

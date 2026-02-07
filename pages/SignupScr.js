@@ -201,8 +201,8 @@ export default function SignupScr({ navigation }){
                         <TouchableOpacity style={style.signup_button} onPress={handleSignUp}>
                             <Text style={style.signup_button_text}>SIGN UP</Text>
                         </TouchableOpacity>
-            </ScrollView>
 
+            </ScrollView>
             <PopUp states={statesPop} setStates={setStatesPop}/>
 
         </KeyboardAvoidingView>
@@ -224,8 +224,8 @@ const style = StyleSheet.create({
         marginTop: 15
     },
     circle: {
-        height: 100,
-        width: 100,
+        height: 75,
+        width: 75,
         borderRadius: 50,
         borderWidth: 2,
         borderColor: 'rgba(0, 122, 255, 1)',
@@ -234,7 +234,7 @@ const style = StyleSheet.create({
         marginVertical: 10
     },
     avatarText: {
-        fontSize: 65,
+        fontSize: 45,
         fontWeight: 'bold',
         color: 'white',
     },
@@ -262,7 +262,7 @@ const style = StyleSheet.create({
     },
     subtitle: {
         fontSize: 16,
-        color: 'gray'
+        color: 'gray',
     },
     signup_button: {
         paddingHorizontal: 100,
@@ -270,7 +270,8 @@ const style = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgba(0, 122, 255, 0.8)',
         borderRadius: 10,
-        height: 35
+        height: 32,
+        marginVertical: 5
     },
     signup_button_text: {
         fontWeight: 'bold',
@@ -280,6 +281,5 @@ const style = StyleSheet.create({
     foot_text: {
         color: 'gray',
         fontSize: 12,
-        paddingHorizontal: 5
     }
 })

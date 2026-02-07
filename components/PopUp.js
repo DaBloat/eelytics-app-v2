@@ -1,4 +1,4 @@
-import { View, Modal, TouchableOpacity, Text, Image, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, Modal, TouchableOpacity, Text, Image, StyleSheet, ActivityIndicator, Dimensions } from 'react-native'
 
 export default function PopUp({ states, setStates }) {
     const imageEel = { 'success': {img: require('../assets/success.png'),
@@ -12,6 +12,9 @@ export default function PopUp({ states, setStates }) {
     }
 
     const curr = imageEel[states.status]
+    const { width: SCREEN_WIDTH } = Dimensions.get('window');
+    const scale = (size) => (SCREEN_WIDTH / 375) * size;
+    const moderateScale = (size, factor = 0.5) => size + (scale(size) - size) * factor;
 
     return (
         <Modal visible={states.visible} transparent={true} animationType='fade'>
@@ -40,27 +43,25 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(30, 30, 30, 0.5)',
         alignItems: 'center',
         justifyContent: 'center',
-        width: "100%",
-        height:"100%"
+        flex: 1
     },
     containerModal: {
-        backgroundColor: 'rgba(30, 30, 30, 1)',
+        backgroundColor: 'c',
         borderRadius: 10,
         borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        width: '90%',
-        height: '30%'
+        width: '85%',
     },
     buttonContainer: {
         alignItems: 'flex-end',
         width: '100%',
-        paddingHorizontal: 10
+        padding: 10
     },
     button: {
         borderRadius: 10,
         width: '15%',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     buttonText: {
         color:'white',
@@ -69,8 +70,8 @@ const styles = StyleSheet.create({
         padding: 5
     },
     imgStatus: {
-        width: 95,
-        height: 95,
+        width: 80,
+        height: 80,
         marginTop: 25
     },
     title: {
@@ -81,6 +82,5 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 16,
         color: 'gray',
-        marginBottom: 15
     }
 })
