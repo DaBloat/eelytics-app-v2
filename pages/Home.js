@@ -1,9 +1,7 @@
 import { useState } from 'react'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { View } from 'react-native'
 
 import Dashboard from './Dashboard'
 import Live from './Live'
@@ -12,14 +10,23 @@ import Account from './Account';
 import Log from './Log';
 
 import AnimateIcon from '../components/AnimateIcon';
+import Header from '../components/Header';
 
 const Tab = createMaterialTopTabNavigator()
 
 export default function Home() {
+    const [routeName, setRouteName] = useState('Dashboard')
+
     return (
         <SafeAreaProvider>
+            <Header title={routeName}/>
             <SafeAreaView style={{flex:1}}>
                 <Tab.Navigator
+                    screenListeners={{
+                        state: (e) => {
+                            setRouteName(e.data.state.routes[e.data.state.index].name)
+                        }
+                    }}
                     tabBarPosition='bottom'
                     screenOptions={({ route }) => ({
                         tabBarIcon: ({ focused, color }) => {
@@ -46,9 +53,10 @@ export default function Home() {
                     tabBarActiveTintColor: 'rgba(0, 122, 255, 1)',
                     tabBarInactiveTintColor: 'gray',
                     tabBarStyle:{
-                        backgroundColor: 'rgba(30, 30, 30, 0.8)',
+                        backgroundColor: 'rgba(30, 30, 30, 1)',
                         borderTopColor: 'rgba(0, 122, 255, 1)',
-                        borderTopWidth: 1
+                        borderTopWidth: 1,
+                        height: 55
                     },
                     tabBarIndicatorStyle: {
                         backgroundColor: 'transparent'

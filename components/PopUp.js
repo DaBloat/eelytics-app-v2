@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     containerModal: {
-        backgroundColor: 'c',
+        backgroundColor: 'rgba(30, 30, 30, 1)',
         borderRadius: 10,
         borderWidth: 1,
         alignItems: 'center',
