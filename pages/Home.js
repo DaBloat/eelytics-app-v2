@@ -20,7 +20,7 @@ export default function Home() {
     return (
         <SafeAreaProvider>
             <Header title={routeName}/>
-            <SafeAreaView style={{flex:1}}>
+            <SafeAreaView style={{ flex:1 }}>
                 <Tab.Navigator
                     screenListeners={{
                         state: (e) => {
