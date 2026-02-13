@@ -11,21 +11,27 @@ export default function Live({ navigation }){
     }
 
 
-    const INJECT_JS = `
-                            function hideVideoControls() {
-                                const video = document.querySelector("video");
-                                if (video) {
-                                video.controls = false; // Hides the controls
-                                video.autoplay = true; // Ensure autoplay is set
-                                video.muted = true; // Mute is often required for autoplay
-                                video.playsInline = true; // For iOS inline playback
-                                video.style.objectFit = "cover"; // Ensures video fills the container
-                                video.play().catch(error => {
-                                    // Autoplay might be blocked, but controls should still be hidden
-                                    console.log("Autoplay prevented:", error);
-                                });
-                                }
-                            }`;
+const injectedJavaScript = `
+  function hideVideoControls() {
+    const video = document.querySelector("video");
+    if (video) {
+      video.controls = false; // Hides the controls
+      video.autoplay = true; // Ensure autoplay is set
+      video.muted = true; // Mute is often required for autoplay
+      video.playsInline = true; // For iOS inline playback
+      video.style.objectFit = "cover"; // Ensures video fills the container
+      video.play().catch(error => {
+        // Autoplay might be blocked, but controls should still be hidden
+        console.log("Autoplay prevented:", error);
+      });
+    }
+  }
+    
+  hideVideoControls();
+  const intervalId = setInterval(hideVideoControls, 500); // Check every 500ms
+  setTimeout(() => clearInterval(intervalId), 5000); // Stop after 5 seconds
+  true; 
+`;
 
     return (
         <View style={styles.live_container}>
@@ -38,10 +44,10 @@ export default function Live({ navigation }){
                     scrollEnabled={true}
                     mediaPlaybackRequiresUserAction={false}
                     allowsInlineMediaPlayback={true}
-                    injectedJavaScript={INJECT_JS}
+                    injectedJavaScript={injectedJavaScript}
                 />
-                <View style={{ zIndex: 1, backgroundColor: 'transparent', position: 'absolute', height: '100%', width: '100%'}}>
-                                    <View style={styles.text_container}>
+                <View style={styles.no_touch_zone}>
+                    <View style={styles.text_container}>
                     <Text style={styles.pos_text}>/{currentStream}</Text>
                 </View>
                 <View style={styles.button_container}>
@@ -101,5 +107,5 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         borderWidth: 1,
         borderColor: 'rgba(0, 122, 255, 1)'
-    }
+    },
 })
