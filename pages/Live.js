@@ -1,15 +1,15 @@
 import { View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { WebView } from 'react-native-webview'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Live({ navigation }){
     const [currentStream, setCurrentStream] = useState('cam')
+    const [modelData, setModelData] = useState({'size': '-', 'group':'-'})
     const STREAMS = {
         'cam': 'https://unfauceted-irene-contextually.ngrok-free.dev/cam/',
         'processed': 'https://unfauceted-irene-contextually.ngrok-free.dev/processed/'
     }
-
 
     const injectedJavaScript = `
         function hideVideoControls() {
@@ -32,6 +32,21 @@ export default function Live({ navigation }){
         setTimeout(() => clearInterval(intervalId), 5000); // Stop after 5 seconds
         true; 
         `;
+
+    useEffect(() => {
+        const fetchLiveData = async () => {
+            const response = await fetch('https://unfauceted-irene-contextually.ngrok-free.dev/api/mdt/live')
+            const data = await response.json()
+
+            if ( data.size !== 0 && data.group !== 'NONE'){
+                setModelData(data)
+            }
+        }
+
+        const intervalId = setInterval(fetchLiveData, 100)
+
+        return () => clearInterval(intervalId)
+    }, [])
 
     return (
         <View style={styles.live_container}>
@@ -60,7 +75,7 @@ export default function Live({ navigation }){
             <View style={styles.info_container}>
                 <View style={styles.size_container}>
                     <Text style={styles.info_text}>
-                        999.99
+                        {modelData.size}
                     </Text>
                     <Text style={styles.info_title_text}>
                         Size (inch)
@@ -68,7 +83,7 @@ export default function Live({ navigation }){
                 </View>
                 <View style={styles.group_container}>
                     <Text style={styles.info_text}>
-                        TABLE
+                        {modelData.group}
                     </Text>
                     <Text style={styles.info_title_text}>
                         Group Size
