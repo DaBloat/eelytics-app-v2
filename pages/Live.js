@@ -38,7 +38,7 @@ export default function Live({ navigation }){
             <View style={styles.web_view}>
                 <WebView
                     source={{ uri: STREAMS[currentStream],
-                            header: { 'ngrok-skip-browser-warning': 'true' }
+                            headers: { 'ngrok-skip-browser-warning': 'true' }
                     }}
                     style={{ flex:1 }}
                     scrollEnabled={true}
@@ -55,6 +55,24 @@ export default function Live({ navigation }){
                         <MaterialCommunityIcons name="camera-switch" color={'gray'} size={20}/>
                     </TouchableOpacity>
                 </View>
+                </View>
+            </View>
+            <View style={styles.info_container}>
+                <View style={styles.size_container}>
+                    <Text style={styles.info_text}>
+                        999.99
+                    </Text>
+                    <Text style={styles.info_title_text}>
+                        Size (inch)
+                    </Text>
+                </View>
+                <View style={styles.group_container}>
+                    <Text style={styles.info_text}>
+                        TABLE
+                    </Text>
+                    <Text style={styles.info_title_text}>
+                        Group Size
+                    </Text>
                 </View>
             </View>
         </View>
@@ -107,5 +125,43 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         borderWidth: 1,
         borderColor: 'rgba(0, 122, 255, 1)'
+    },
+    info_container : {
+        flexDirection: 'row',
+        marginHorizontal: 35
+    },
+    size_container: {
+        width: '50%',
+        backgroundColor: 'red',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderRadius: 10,
+        marginRight: 5,
+        borderColor: 'rgba(0, 122, 255, 1)',
+        backgroundColor: 'rgba(30, 30, 30, 0.8)'
+    },
+    group_container: {
+        width: '50%',
+        backgroundColor: 'blue',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderRadius: 10,
+        marginLeft: 5,
+        borderColor: 'rgba(0, 122, 255, 1)',
+        backgroundColor: 'rgba(30, 30, 30, 0.8)',
+    },
+    info_title_text: {
+        borderTopWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+        fontSize: 14,
+        color: 'white',
+        fontWeight: 'bold',
+        paddingBottom: 5,
+    },
+    info_text: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'white',
+        padding: 5
     },
 })
