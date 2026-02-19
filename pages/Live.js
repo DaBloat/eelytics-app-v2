@@ -77,17 +77,21 @@ export default function Live({ navigation }){
                     <Text style={styles.info_text}>
                         {modelData.size}
                     </Text>
-                    <Text style={styles.info_title_text}>
-                        Size (inch)
-                    </Text>
+                    <View style={styles.info_title_container}>
+                        <Text style={styles.info_title_text}>
+                            Size (inch)
+                        </Text>
+                    </View>
                 </View>
                 <View style={styles.group_container}>
                     <Text style={styles.info_text}>
                         {modelData.group}
                     </Text>
-                    <Text style={styles.info_title_text}>
-                        Group Size
-                    </Text>
+                    <View style={styles.info_title_container}>
+                        <Text style={styles.info_title_text}>
+                            Group Size
+                        </Text>
+                    </View>
                 </View>
             </View>
         </View>
@@ -112,7 +116,7 @@ const styles = StyleSheet.create({
     button_container: {
         position: 'absolute',
         flexDirection: 'row',
-        bottom: 10,
+        top: 10,
         right: 10,
     },
     text_container: {
@@ -165,13 +169,18 @@ const styles = StyleSheet.create({
         borderColor: 'rgba(0, 122, 255, 1)',
         backgroundColor: 'rgba(30, 30, 30, 0.8)',
     },
-    info_title_text: {
+    info_title_container: {
+        width: '65%',
         borderTopWidth: 1,
         borderColor: 'rgba(255, 255, 255, 0.2)',
+        paddingBottom: 5,
+        alignItems: 'center'
+    },
+    info_title_text: {
         fontSize: 14,
         color: 'white',
         fontWeight: 'bold',
-        paddingBottom: 5,
+        padding: 3,
     },
     info_text: {
         fontSize: 20,
