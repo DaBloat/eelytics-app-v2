@@ -3,19 +3,22 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { WebView } from 'react-native-webview'
 import { useState, useEffect } from 'react';
 
-export default function Live({ navigation }){
+export default function Live({ route }){
     const [currentStream, setCurrentStream] = useState('cam')
     const [logs, setLogs] = useState([])
     const [modelData, setModelData] = useState({'size': '-', 'group':'-'})
     const colorGroup = {"ELVER" : '#00D4FF',
                         "KUROKO" : '#00FF41',
                         'TABLE': '#FF3131',
-                        'NONE': 'white'}
+                        'NONE': 'white',
+                        '-': 'white'}
+
     const currColor = colorGroup[modelData.group]
+    const { baseUrl } = route.params
 
     const STREAMS = {
-        'cam': 'https://unfauceted-irene-contextually.ngrok-free.dev/cam/',
-        'processed': 'https://unfauceted-irene-contextually.ngrok-free.dev/processed/'
+        'cam': `${baseUrl}/cam/`,
+        'processed': `${baseUrl}/processed/`
     }
 
     const injectedJavaScript = `
@@ -42,7 +45,7 @@ export default function Live({ navigation }){
 
     useEffect(() => {
         const fetchLiveData = async () => {
-            const response = await fetch('https://unfauceted-irene-contextually.ngrok-free.dev/api/mdt/live')
+            const response = await fetch(`${baseUrl}/api/mdt/live`)
             const data = await response.json()
 
             if ( data.size !== 0 && data.group !== 'NONE'){

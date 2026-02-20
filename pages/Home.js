@@ -14,8 +14,9 @@ import Header from '../components/Header';
 
 const Tab = createMaterialTopTabNavigator()
 
-export default function Home({ navigation }) {
+export default function Home({ navigation, route }) {
     const [routeName, setRouteName] = useState('Dashboard')
+    const { baseUrl } = route.params
 
     return (
         <SafeAreaProvider>
@@ -64,11 +65,11 @@ export default function Home({ navigation }) {
                     tabBarShowLabel: false
                 })}
                 >
-                    <Tab.Screen name="Dashboard" component={Dashboard}/>
-                    <Tab.Screen name="Tank" component={Tank}/>
-                    <Tab.Screen name="Live" component={Live}/>
-                    <Tab.Screen name="Log" component={Log}/>
-                    <Tab.Screen name="Account" component={Account}/>
+                    <Tab.Screen name="Dashboard" component={Dashboard} initialParams={{ baseUrl }}/>
+                    <Tab.Screen name="Tank" component={Tank} initialParams={{ baseUrl }}/>
+                    <Tab.Screen name="Live" component={Live} initialParams={{ baseUrl }}/>
+                    <Tab.Screen name="Log" component={Log} initialParams={{ baseUrl }}/>
+                    <Tab.Screen name="Account" component={Account} initialParams={{ baseUrl }}/>
                 </Tab.Navigator>
             </SafeAreaView>
         </SafeAreaProvider>
