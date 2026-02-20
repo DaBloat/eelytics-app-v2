@@ -5,7 +5,14 @@ import { useState, useEffect } from 'react';
 
 export default function Live({ navigation }){
     const [currentStream, setCurrentStream] = useState('cam')
+    const [logs, setLogs] = useState([])
     const [modelData, setModelData] = useState({'size': '-', 'group':'-'})
+    const colorGroup = {"ELVER" : '#00D4FF',
+                        "KUROKO" : '#00FF41',
+                        'TABLE': '#FF3131',
+                        'NONE': 'white'}
+    const currColor = colorGroup[modelData.group]
+
     const STREAMS = {
         'cam': 'https://unfauceted-irene-contextually.ngrok-free.dev/cam/',
         'processed': 'https://unfauceted-irene-contextually.ngrok-free.dev/processed/'
@@ -40,6 +47,21 @@ export default function Live({ navigation }){
 
             if ( data.size !== 0 && data.group !== 'NONE'){
                 setModelData(data)
+
+                setLogs(prevLogs => {
+                    const timestamp = new Date().toLocaleTimeString([], { hour12:false })
+                    const newEntry = `${timestamp} - Detected : ${data.size} in as ${data.group}`
+
+                    const lastEntry = prevLogs[0]?.split(' - ')[1]
+                    const currentEntry = `Detected : ${data.size} in as ${data.group}`
+
+                    if (lastEntry === currentEntry){
+                        return prevLogs
+                    }
+
+                    return [newEntry, ...prevLogs].slice(0, 10)
+
+                })
             }
         }
 
@@ -74,7 +96,7 @@ export default function Live({ navigation }){
             </View>
             <View style={styles.info_container}>
                 <View style={styles.size_container}>
-                    <Text style={styles.info_text}>
+                    <Text style={[styles.info_text, {color: currColor}]}>
                         {modelData.size}
                     </Text>
                     <View style={styles.info_title_container}>
@@ -84,7 +106,7 @@ export default function Live({ navigation }){
                     </View>
                 </View>
                 <View style={styles.group_container}>
-                    <Text style={styles.info_text}>
+                    <Text style={[styles.info_text, {color: currColor}]}>
                         {modelData.group}
                     </Text>
                     <View style={styles.info_title_container}>
@@ -92,6 +114,26 @@ export default function Live({ navigation }){
                             Group Size
                         </Text>
                     </View>
+                </View>
+            </View>
+            <View style={styles.log_container}>
+                <View style={styles.log_text_container}>
+                    {logs.map((log, index) => {
+                        const [pref, group] = log.split(' as ')
+                        return (
+                        <Text key={index} style={styles.log_text}>
+                            {`-> ${pref} as `}
+                            <Text style={{ color: colorGroup[group]}}>
+                                {group}
+                            </Text>
+                        </Text>
+                        )
+                    })}
+                </View>
+                <View style={styles.log_title_container}>
+                    <Text style={styles.log_title}>
+                        Detection Log
+                    </Text>
                 </View>
             </View>
         </View>
@@ -187,5 +229,37 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         padding: 5
+    },
+    log_container: {
+        margin: 20,
+        height: "30%",
+        backgroundColor: 'rgba(30, 30, 30, 0.8)',
+        width: '85%',
+        borderWidth: 2,
+        borderRadius: 10,
+        borderColor: 'rgba(0, 122, 255, 1)',
+        alignItems: 'center'
+    },
+    log_title_container: {
+        width: '85%',
+        borderTopWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+        paddingBottom: 5,
+        alignItems: 'center' 
+    },
+    log_text_container: {
+        height: '85%',
+        padding: 15
+    },
+    log_title: {
+        fontSize: 14,
+        color: 'white',
+        fontWeight: 'bold',
+        padding: 3,
+    },
+    log_text: {
+        fontSize: 11,
+        color: 'white',
+        fontFamily: 'monospace',
     },
 })
