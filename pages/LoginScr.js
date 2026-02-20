@@ -16,10 +16,15 @@ export default function LoginScr({ navigation }) {
         description: '',
         status: 'success'
     })
+    const [mode, setMode] = useState('API')
 
     const handleLogin = async() => {
         console.log(`Username is ${username}`)
         console.log(`Password is ${password}`)
+        const selectedUrl = mode === 'LOCAL' 
+        ? 'http://192.168.1.220' 
+        : 'https://unfauceted-irene-contextually.ngrok-free.dev';
+        console.log(`Link is ${selectedUrl}`)
 
         if (!username.trim() || !password.trim()) {
             setStatesPop({visible:true,
@@ -38,7 +43,7 @@ export default function LoginScr({ navigation }) {
                           status: 'loading'
         })
 
-        const response = await fetch('https://unfauceted-irene-contextually.ngrok-free.dev/api/accounts/login',
+        const response = await fetch(`${selectedUrl}/api/accounts/login`,
                                 {
                                     method: 'POST',
                                     headers: {
@@ -121,6 +126,14 @@ export default function LoginScr({ navigation }) {
             <TouchableOpacity style={styles.signup_button} onPress={goToSignUp}>
                 <Text style={styles.login_button_text}>SIGN UP</Text>
             </TouchableOpacity>
+
+            <View style={styles.mode_button_container}>
+                            <TouchableOpacity onPress={() => {setMode(mode === 'API' ? 'LOCAL' : 'API')}}>
+                    <Text style={styles.mode_button} >
+                        {mode}
+                    </Text>
+            </TouchableOpacity>
+            </View>
 
             <PopUp states={statesPop} setStates={setStatesPop}/>
 
@@ -218,5 +231,14 @@ const styles = StyleSheet.create({
         width: '80%',
         borderRadius: 10,
         height: 35,
-    }
+    },
+    mode_button: {
+        fontSize: 12,
+        color: 'gray',
+    },
+    mode_button_container: {
+        alignItems: 'flex-end',
+        width: '100%',
+        marginTop: 50
+    },
 })

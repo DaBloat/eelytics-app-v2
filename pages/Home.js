@@ -14,7 +14,7 @@ import Header from '../components/Header';
 
 const Tab = createMaterialTopTabNavigator()
 
-export default function Home() {
+export default function Home({ navigation }) {
     const [routeName, setRouteName] = useState('Dashboard')
 
     return (
