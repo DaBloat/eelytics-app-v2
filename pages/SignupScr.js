@@ -41,9 +41,13 @@ export default function SignupScr({ navigation }){
         description: '',
         status: 'success'
     })
-
+    const [mode, setMode] = useState('API')
 
     const handleSignUp = async() => {
+        const selectedUrl = mode === "LOCAL" ?
+            "https://192.168.1.220" :
+            "https://unfauceted-irene-contextually.ngrok-free.dev"
+        console.log(selectedUrl)
 
         if (!firstName.trim() || !lastName.trim() || !username.trim() || !email.trim() || !password.trim() || !confirmPassword.trim() ) {
             setStatesPop({visible:true,
@@ -106,7 +110,7 @@ export default function SignupScr({ navigation }){
                           status: 'loading'
         })
 
-        const response = await fetch('https://unfauceted-irene-contextually.ngrok-free.dev/api/accounts/signup',
+        const response = await fetch(`${selectedUrl}/api/accounts/signup`,
             {
                 method: 'POST',
                 headers: {
@@ -202,6 +206,14 @@ export default function SignupScr({ navigation }){
                             <Text style={style.signup_button_text}>SIGN UP</Text>
                         </TouchableOpacity>
 
+                        <View style={style.mode_button_container}>
+                            <TouchableOpacity onPress={() => {setMode(mode === 'API' ? 'LOCAL' : 'API')}}>
+                                <Text style={style.mode_button}>
+                                    {mode}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+
             </ScrollView>
             <PopUp states={statesPop} setStates={setStatesPop}/>
 
@@ -281,5 +293,14 @@ const style = StyleSheet.create({
     foot_text: {
         color: 'gray',
         fontSize: 12,
-    }
+    },
+    mode_button: {
+        fontSize: 12,
+        color: 'gray',
+    },
+    mode_button_container: {
+        alignItems: 'flex-end',
+        width: '100%',
+        marginTop: 5
+    },
 })

@@ -58,7 +58,7 @@ export default function LoginScr({ navigation }) {
                                 })
 
             if (!response.ok && response.status >= 500) {
-            throw new Error(`Server returned ${response.status}. Nginx might be failing to reach Python.`);}
+            throw new Error(`Server returned ${response.status}.`);}
             
             const data = await response.json()
             console.log(data)
@@ -92,7 +92,7 @@ export default function LoginScr({ navigation }) {
             setStatesPop({
                 visible: true,
                 title: 'Network Error',
-                description: error.message || 'Could not reach the server.',
+                description: 'Could not reach the server.',
                 status: 'error'
             });
 
