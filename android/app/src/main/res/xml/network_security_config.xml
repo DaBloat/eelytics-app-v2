@@ -6,4 +6,10 @@
             <certificates src="system" />
         </trust-anchors>
     </base-config>
+    
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="@raw/pi_cert" />
+        </trust-anchors>
+    </debug-overrides>
 </network-security-config>
