@@ -22,7 +22,7 @@ export default function LoginScr({ navigation }) {
         console.log(`Username is ${username}`)
         console.log(`Password is ${password}`)
         const selectedUrl = mode === 'LOCAL' 
-            ? 'http://192.168.1.220' 
+            ? 'https://192.168.1.220' 
             : 'https://unfauceted-irene-contextually.ngrok-free.dev';
         console.log(`Link is ${selectedUrl}`)
 
@@ -43,7 +43,8 @@ export default function LoginScr({ navigation }) {
                           status: 'loading'
         })
 
-        const response = await fetch(`${selectedUrl}/api/accounts/login`,
+        try {
+            const response = await fetch(`${selectedUrl}/api/accounts/login`,
                                 {
                                     method: 'POST',
                                     headers: {
@@ -55,32 +56,50 @@ export default function LoginScr({ navigation }) {
                                     password: password
                                     })
                                 })
+
+            if (!response.ok && response.status >= 500) {
+            throw new Error(`Server returned ${response.status}. Nginx might be failing to reach Python.`);}
             
-        const data = await response.json()
-        console.log(data)
-        console.log(response.status)
+            const data = await response.json()
+            console.log(data)
+            console.log(response.status)
 
-        if (response.status === 401) {
-            setStatesPop({visible: true,
-                          title: 'Uh-oh!',
-                          description: data.message,
-                          status: data.status
-            })
-            return;
+            if (response.status === 401) {
+                setStatesPop({visible: true,
+                            title: 'Uh-oh!',
+                            description: data.message,
+                            status: data.status
+                })
+                return;
+            }
+
+            if (response.status === 200) {
+                setStatesPop({visible: true,
+                            title: 'Login Success!',
+                            description: data.message,
+                            status: data.status
+                })
+                setTimeout(()=>{
+                    setStatesPop({...statesPop, visible: false}
+                    )}, 1500)
+                navigation.replace('Home', { baseUrl: selectedUrl })
+            }
+
+        } catch (error) {
+
+            console.error("FETCH ERROR CAUGHT:", error);
+            
+            setStatesPop({
+                visible: true,
+                title: 'Network Error',
+                description: error.message || 'Could not reach the server.',
+                status: 'error'
+            });
+
+        } finally {
+            setLoading(false)
         }
 
-        if (response.status === 200) {
-            setStatesPop({visible: true,
-                          title: 'Login Success!',
-                          description: data.message,
-                          status: data.status
-            })
-            setTimeout(()=>{
-                setStatesPop({...statesPop, visible: false}
-                )}, 1500)
-            navigation.replace('Home', { baseUrl: selectedUrl })
-        }
-        setLoading(false)
     }
 
     const goToSignUp = () => {

@@ -13,7 +13,11 @@
       "backgroundColor": "#1E1E1E"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.teamkinse.eelytics",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.teamkinse.eelytics",
