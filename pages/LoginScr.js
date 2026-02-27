@@ -58,7 +58,7 @@ export default function LoginScr({ navigation }) {
                                 })
 
             if (!response.ok && response.status >= 500) {
-            throw new Error(`Server returned ${response.status}.`);}
+                throw new Error(`Server returned ${response.status}.`);}
             
             const data = await response.json()
             console.log(data)

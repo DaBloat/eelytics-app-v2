@@ -62,7 +62,7 @@ export default function Live({ route }){
                         return prevLogs
                     }
 
-                    return [newEntry, ...prevLogs].slice(0, 10)
+                    return [newEntry, ...prevLogs].slice(0, 7)
 
                 })
             }
@@ -120,6 +120,14 @@ export default function Live({ route }){
                 </View>
             </View>
             <View style={styles.log_container}>
+                <View style={styles.log_summary_container}>
+                    <Text style={styles.log_summary_text}>
+                        Counter: 0
+                    </Text>
+                    <Text style={styles.log_summary_text}>
+                        Average Size: 0 in
+                    </Text>
+                </View>
                 <View style={styles.log_text_container}>
                     {logs.map((log, index) => {
                         const [pref, group] = log.split(' as ')
@@ -135,9 +143,21 @@ export default function Live({ route }){
                 </View>
                 <View style={styles.log_title_container}>
                     <Text style={styles.log_title}>
-                        Detection Log
+                        Batch Summary
                     </Text>
                 </View>
+            </View>
+            <View style={styles.batch_button_container}>
+                <TouchableOpacity style={[styles.batch_button, {backgroundColor: 'green'}]}>
+                    <Text style={styles.batch_button_text}>
+                        Save Batch
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.batch_button, {backgroundColor: 'red'}]}>
+                    <Text style={styles.batch_button_text}>
+                        Reset Batch
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -251,8 +271,23 @@ const styles = StyleSheet.create({
         alignItems: 'center' 
     },
     log_text_container: {
-        height: '85%',
-        padding: 15
+        height: '65%',
+        padding: 10
+    },
+    log_summary_container: {
+        flexDirection: 'row',
+        paddingTop: 15,
+        width: '85%',
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+        borderBottomWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    log_summary_text: {
+        color: "white",
+        fontSize: 14,
+        paddingHorizontal: 15,
+        paddingBottom: 5
     },
     log_title: {
         fontSize: 14,
@@ -265,4 +300,16 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'monospace',
     },
+    batch_button_container: {
+        flexDirection: 'row',
+    },
+    batch_button: {
+        borderRadius: 10,
+        marginHorizontal: 10
+    },
+    batch_button_text: {
+        color: 'white',
+        padding: 5,
+        fontSize: 14
+    }
 })
