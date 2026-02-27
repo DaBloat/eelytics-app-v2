@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 export default function Live({ route }){
     const [currentStream, setCurrentStream] = useState('cam')
     const [logs, setLogs] = useState([])
+    const [batchData, setBatchData] = useState([])
     const [modelData, setModelData] = useState({'size': '-', 'group':'-'})
     const colorGroup = {"ELVER" : '#00D4FF',
                         "KUROKO" : '#00FF41',
@@ -51,6 +52,18 @@ export default function Live({ route }){
             if ( data.size !== 0 && data.group !== 'NONE'){
                 setModelData(data)
 
+                setBatchData(prevBatch => {
+                    const isDuplicate = prevBatch[0] && 
+                                        prevBatch[0].size === data.size &&
+                                        prevBatch[0].group === data.group
+                    
+                    if (isDuplicate) {
+                        return prevBatch
+                    }
+
+                    return [{ size: data.size, group: data.group }, ...prevBatch]
+                })
+
                 setLogs(prevLogs => {
                     const timestamp = new Date().toLocaleTimeString([], { hour12:false })
                     const newEntry = `${timestamp} - Detected : ${data.size} in as ${data.group}`
@@ -72,6 +85,12 @@ export default function Live({ route }){
 
         return () => clearInterval(intervalId)
     }, [])
+
+    const resetBatch = () => {
+        setBatchData([])
+        setLogs([])
+        setModelData({'size': '-', 'group':'-'})
+    }
 
     return (
         <View style={styles.live_container}>
@@ -122,10 +141,10 @@ export default function Live({ route }){
             <View style={styles.log_container}>
                 <View style={styles.log_summary_container}>
                     <Text style={styles.log_summary_text}>
-                        Counter: 0
+                        Counter: {batchData.length}
                     </Text>
                     <Text style={styles.log_summary_text}>
-                        Average Size: 0 in
+                        Average Size: {batchData.length > 0 ? (batchData.reduce((sum, item) => sum + item.size, 0) / batchData.length).toFixed(2) : 0} in
                     </Text>
                 </View>
                 <View style={styles.log_text_container}>
@@ -153,7 +172,7 @@ export default function Live({ route }){
                         Save Batch
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.batch_button, {backgroundColor: 'red'}]}>
+                <TouchableOpacity style={[styles.batch_button, {backgroundColor: 'red'}]} onPress={resetBatch}>
                     <Text style={styles.batch_button_text}>
                         Reset Batch
                     </Text>
@@ -285,6 +304,7 @@ const styles = StyleSheet.create({
     },
     log_summary_text: {
         color: "white",
+        fontWeight: 'bold',
         fontSize: 14,
         paddingHorizontal: 15,
         paddingBottom: 5
