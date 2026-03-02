@@ -22,7 +22,7 @@ export default function LoginScr({ navigation }) {
         console.log(`Username is ${username}`)
         console.log(`Password is ${password}`)
         const selectedUrl = mode === 'LOCAL' 
-            ? 'https://192.168.1.220' 
+            ? 'http://192.168.1.220' 
             : 'https://unfauceted-irene-contextually.ngrok-free.dev';
         console.log(`Link is ${selectedUrl}`)
 
@@ -227,11 +227,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '80%',
-    marginTop: 30,
-    marginBottom: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '80%',
+        marginTop: 30,
+        marginBottom: 10,
     },
     dividerLine: {
         flex: 1,

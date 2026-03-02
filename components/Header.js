@@ -12,7 +12,7 @@ export default function Header({ title, seeMenu}){
             </View>
             <View>
                 <TouchableOpacity onPress={seeMenu}>
-                    <MaterialCommunityIcons name={'menu'} size={30} color={'gray'}/>
+                    <MaterialCommunityIcons name={'cog'} size={30} color={'gray'}/>
                 </TouchableOpacity>
             </View>
         </View>

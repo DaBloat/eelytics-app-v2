@@ -11,7 +11,7 @@ import Log from './Log';
 
 import AnimateIcon from '../components/AnimateIcon';
 import Header from '../components/Header';
-import Menu from '../components/Menu';
+import SettingMenu from '../components/SettingMenu';
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -27,7 +27,7 @@ export default function Home({ navigation, route }) {
     return (
         <SafeAreaProvider>
             <Header title={routeName} seeMenu={toggleMenu}/>
-            <Menu state={isMenu} setState={toggleMenu}/>
+            <SettingMenu state={isMenu} setState={toggleMenu}/>
             <SafeAreaView style={{ flex:1 }}>
                 <Tab.Navigator
                     screenListeners={{
