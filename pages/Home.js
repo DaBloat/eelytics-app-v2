@@ -11,16 +11,23 @@ import Log from './Log';
 
 import AnimateIcon from '../components/AnimateIcon';
 import Header from '../components/Header';
+import Menu from '../components/Menu';
 
 const Tab = createMaterialTopTabNavigator()
 
 export default function Home({ navigation, route }) {
     const [routeName, setRouteName] = useState('Dashboard')
+    const [isMenu, setMenu] = useState(false)
     const { baseUrl } = route.params
+
+    const toggleMenu = () => {
+        setMenu(!isMenu)
+    }
 
     return (
         <SafeAreaProvider>
-            <Header title={routeName}/>
+            <Header title={routeName} seeMenu={toggleMenu}/>
+            <Menu state={isMenu} setState={toggleMenu}/>
             <SafeAreaView style={{ flex:1 }}>
                 <Tab.Navigator
                     screenListeners={{

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-export default function Header({ title }){
+export default function Header({ title, seeMenu}){
     return (
         <View style={styles.headerContainer}>
             <View style={styles.lContainer}>
@@ -11,7 +11,7 @@ export default function Header({ title }){
                 </Text>
             </View>
             <View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={seeMenu}>
                     <MaterialCommunityIcons name={'menu'} size={30} color={'gray'}/>
                 </TouchableOpacity>
             </View>

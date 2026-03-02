@@ -86,6 +86,10 @@ export default function Live({ route }){
         return () => clearInterval(intervalId)
     }, [])
 
+    const saveBatch = () => {
+        return 0
+    }
+
     const resetBatch = () => {
         setBatchData([])
         setLogs([])
@@ -325,7 +329,9 @@ const styles = StyleSheet.create({
     },
     batch_button: {
         borderRadius: 10,
-        marginHorizontal: 10
+        marginHorizontal: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     batch_button_text: {
         color: 'white',
