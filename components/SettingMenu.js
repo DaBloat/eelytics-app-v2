@@ -3,7 +3,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 export default function SettingMenu({state, setState}) {
     return (
-        <Modal visible={state} transparent={true}>
+        <Modal visible={state} transparent={true} animationIn="slideInRight" animationOut="slideOutRight">
             <View style={styles.modal_container} >
                 <View style={styles.menu}>
                     <View style={styles.back_button_container}>
