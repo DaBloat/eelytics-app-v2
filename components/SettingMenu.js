@@ -13,7 +13,7 @@ export default function SettingMenu({state, setState}) {
                     </View>
                     <View style={styles.menu_button_containers}>
                         <Text style={styles.title}>
-                            Settings
+                            Options
                         </Text>
                     </View>
                     <View style={styles.menu_button_containers}>
@@ -40,10 +40,44 @@ export default function SettingMenu({state, setState}) {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                    </View>2
+                    </View>
+                    <View style={styles.menu_button_containers}>
+                        <View style={styles.subtitle_container}>
+                            <MaterialCommunityIcons name={'chip'} color={'white'} size={16}/>
+                            <Text style={styles.subtitle}>
+                                System Health:
+                            </Text>
+                        </View>
+                        <View style={styles.component_container}>
+                            <TouchableOpacity style={styles.component_button}>
+                                <MaterialCommunityIcons name={'server-network'} color={'white'}/>
+                                <Text style={styles.component_button_text}>
+                                    Model Server
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.component_button}>
+                                <MaterialCommunityIcons name={'raspberry-pi'} color={'white'}/>
+                                <Text style={styles.component_button_text}>
+                                    Raspberry Pi
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.component_button}>
+                                <MaterialCommunityIcons name={'integrated-circuit-chip'} color={'white'}/>
+                                <Text style={styles.component_button_text}>
+                                    Gate ESP32
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.component_button}>
+                                <MaterialCommunityIcons name={'integrated-circuit-chip'} color={'white'}/>
+                                <Text style={styles.component_button_text}>
+                                    Tank ESP32
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                     <View style={styles.menu_button_containers}>
                         <TouchableOpacity style={styles.menu_button}>
-                            <MaterialCommunityIcons name={'bin'} color={'white'} size={16}/>
+                            <MaterialCommunityIcons name={'information'} color={'white'} size={16}/>
                             <Text style={styles.menu_button_text}>
                                 Information
                             </Text>
@@ -51,7 +85,7 @@ export default function SettingMenu({state, setState}) {
                     </View>
                     <View style={styles.menu_button_containers}>
                         <TouchableOpacity style={styles.menu_button}>
-                            <MaterialCommunityIcons name={'bin'} color={'white'} size={16}/>
+                            <MaterialCommunityIcons name={'gavel'} color={'white'} size={16}/>
                             <Text style={styles.menu_button_text}>
                                 Legal
                             </Text>
@@ -59,7 +93,15 @@ export default function SettingMenu({state, setState}) {
                     </View>
                     <View style={styles.menu_button_containers}>
                         <TouchableOpacity style={styles.menu_button}>
-                            <MaterialCommunityIcons name={'bin'} color={'white'} size={16}/>
+                            <MaterialCommunityIcons name={'bug-outline'} color={'white'} size={16}/>
+                            <Text style={styles.menu_button_text}>
+                                Feedback
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.menu_button_containers}>
+                        <TouchableOpacity style={styles.menu_button}>
+                            <MaterialCommunityIcons name={'trash-can'} color={'white'} size={16}/>
                             <Text style={styles.menu_button_text}>
                                 Delete Account
                             </Text>
@@ -67,7 +109,7 @@ export default function SettingMenu({state, setState}) {
                     </View>
                     <View style={styles.menu_button_containers}>
                         <TouchableOpacity style={styles.menu_button}>
-                            <MaterialCommunityIcons name={'bin'} color={'white'} size={16}/>
+                            <MaterialCommunityIcons name={'logout'} color={'white'} size={16}/>
                             <Text style={styles.menu_button_text}>
                                 Log Out
                             </Text>
@@ -75,7 +117,7 @@ export default function SettingMenu({state, setState}) {
                     </View>
                     <View style={styles.copyright_foot}>
                         <Text style={styles.copyright_text}>
-                            © 2025 Eelytics -  All Rights Reserved
+                            © 2025 Eelytics All Rights Reserved
                         </Text>
                     </View>
                 </View>
@@ -169,9 +211,32 @@ const styles = StyleSheet.create({
     copyright_foot: {
         position: 'absolute',
         bottom: 10,
-        left: 50,
+        left: 55,
     },
     copyright_text: {
         color: 'gray'
+    },
+    component_container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom: 10,
+        width: '100%',
+    },
+    component_button: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10,
+        width: '40%',
+        backgroundColor: 'rgba(0, 122, 255, 0.9)',
+        borderRadius: 10
+    },
+    component_button_text: {
+        fontWeight: 'bold',
+        color: 'white',
+        fontSize: 10,
+        padding: 10
     }
 })
