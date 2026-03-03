@@ -18,6 +18,7 @@ export default function SettingMenu({state, setState}) {
                     </View>
                     <View style={styles.menu_button_containers}>
                         <View style={styles.subtitle_container}>
+                            <MaterialCommunityIcons name={'gate'} color={'white'} size={16}/>
                             <Text style={styles.subtitle}>
                                 Test Gates:
                             </Text>
@@ -39,20 +40,43 @@ export default function SettingMenu({state, setState}) {
                                 </Text>
                             </TouchableOpacity>
                         </View>
+                    </View>2
+                    <View style={styles.menu_button_containers}>
+                        <TouchableOpacity style={styles.menu_button}>
+                            <MaterialCommunityIcons name={'bin'} color={'white'} size={16}/>
+                            <Text style={styles.menu_button_text}>
+                                Information
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.menu_button_containers}>
-                        <TouchableOpacity>
-                            <Text>
+                        <TouchableOpacity style={styles.menu_button}>
+                            <MaterialCommunityIcons name={'bin'} color={'white'} size={16}/>
+                            <Text style={styles.menu_button_text}>
+                                Legal
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.menu_button_containers}>
+                        <TouchableOpacity style={styles.menu_button}>
+                            <MaterialCommunityIcons name={'bin'} color={'white'} size={16}/>
+                            <Text style={styles.menu_button_text}>
                                 Delete Account
                             </Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.menu_button_containers}>
-                        <TouchableOpacity>
-                            <Text>
+                        <TouchableOpacity style={styles.menu_button}>
+                            <MaterialCommunityIcons name={'bin'} color={'white'} size={16}/>
+                            <Text style={styles.menu_button_text}>
                                 Log Out
                             </Text>
                         </TouchableOpacity>
+                    </View>
+                    <View style={styles.copyright_foot}>
+                        <Text style={styles.copyright_text}>
+                            © 2025 Eelytics -  All Rights Reserved
+                        </Text>
                     </View>
                 </View>
             </View>
@@ -64,17 +88,18 @@ const styles = StyleSheet.create({
     modal_container : {
         alignItems: 'flex-end',
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        height: '100%'
     },
     menu: {
         backgroundColor: 'rgba(30, 30, 30, 1)',
         width: "80%",
         height: "100%",
-        borderLeftWidth: 2,
+        borderLeftWidth: 1,
         borderLeftColor: 'rgba(0, 122, 255, 1)',
         justifyContent: 'flex-start',
         alignContent: 'center',
         borderTopLeftRadius: 10,
-        borderBottomLeftRadius: 10
+        borderBottomLeftRadius: 10,
     },
     back_button_container: {
         alignItems:'flex-end',
@@ -98,7 +123,8 @@ const styles = StyleSheet.create({
         paddingBottom: 10
     },
     subtitle_container: {
-        alignItems: 'flex-start',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
         flexDirection: 'row',
         width: '90%'
     },
@@ -127,5 +153,25 @@ const styles = StyleSheet.create({
         fontSize: 10,
         padding: 10,
         fontWeight: 'bold'
+    },
+    menu_button: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10
+    },
+    menu_button_text: {
+        color: 'white',
+        paddingHorizontal: 5,
+        fontWeight: 'bold',
+        fontSize: 14
+    },
+    copyright_foot: {
+        position: 'absolute',
+        bottom: 10,
+        left: 50,
+    },
+    copyright_text: {
+        color: 'gray'
     }
 })
