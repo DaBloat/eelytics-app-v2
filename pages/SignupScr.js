@@ -46,7 +46,7 @@ export default function SignupScr({ navigation }){
     const handleSignUp = async() => {
         const selectedUrl = mode === "LOCAL" ?
             "https://192.168.1.220" :
-            "https://unfauceted-irene-contextually.ngrok-free.dev"
+            "https://dabloat.tech"
         console.log(selectedUrl)
 
         if (!firstName.trim() || !lastName.trim() || !username.trim() || !email.trim() || !password.trim() || !confirmPassword.trim() ) {
