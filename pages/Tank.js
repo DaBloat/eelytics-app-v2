@@ -1,11 +1,22 @@
 import { View, Text, TouchableOpacity, Animated, StyleSheet } from 'react-native'
-
+import { useEffect, useRef } from 'react'
+ 
 export default function Tank({ navigation }){
+    const animatedLevel = useRef(new Animated.Value(0)).current
+
+    useEffect(() => {
+        Animated.timing(animatedLevel, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: false
+        }).start()
+    }, [])
+
     return (
         <View style={styles.tank_container}>
             <View style={styles.tank_info_container}>
                 <View style={styles.tank}>
-                    <Text>POP</Text>
+                    <Animated.View height={animatedLevel} style={styles.tank_water_level}/>
                 </View>
                 <View style={styles.tank_info_card_container}>
                     <View style={styles.tank_info_card}>
@@ -15,6 +26,16 @@ export default function Tank({ navigation }){
                         <View style={styles.tank_info_card_title_container}>
                             <Text style={styles.tank_info_card_title}>
                                 Water Level
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={styles.tank_info_card}>
+                        <Text style={styles.tank_info_text} >
+                            -
+                        </Text>
+                        <View style={styles.tank_info_card_title_container}>
+                            <Text style={styles.tank_info_card_title}>
+                                Maintain at
                             </Text>
                         </View>
                     </View>
@@ -35,16 +56,6 @@ export default function Tank({ navigation }){
                         <View style={styles.tank_info_card_title_container}>
                             <Text style={styles.tank_info_card_title}>
                                 Action
-                            </Text>
-                        </View>
-                    </View>
-                    <View style={styles.tank_info_card}>
-                        <Text style={styles.tank_info_text} >
-                            -
-                        </Text>
-                        <View style={styles.tank_info_card_title_container}>
-                            <Text style={styles.tank_info_card_title}>
-                                Goal
                             </Text>
                         </View>
                     </View>
@@ -70,8 +81,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: '50%',
         marginRight: 5,
-                borderColor: 'rgba(0, 122, 255, 1)',
+        borderColor: 'rgba(0, 122, 255, 1)',
         backgroundColor: 'rgba(30, 30, 30, 0.8)',
+        overflow: 'hidden',
+        justifyContent: 'flex-end'
+    },
+    tank_water_level: {
+        width: '100%',
+        backgroundColor: 'rgba(0, 122, 255, 0.7)',
     },
     tank_info_card_container: {
         width: '45%',
@@ -89,11 +106,14 @@ const styles = StyleSheet.create({
     tank_info_card_title: {
         color: 'white',
         fontWeight: 'bold',
-        padding: 5
+        padding: 5,
+        fontSize: 15,
     },
     tank_info_card_title_container: {
         borderTopWidth: 1,
         borderColor: 'rgba(255, 255, 255, 0.2)',
+        width: '75%',
+        alignItems:'center'
     },
     tank_info_text: {
         color: 'white',
