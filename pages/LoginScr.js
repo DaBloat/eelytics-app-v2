@@ -22,7 +22,7 @@ export default function LoginScr({ navigation }) {
         console.log(`Username is ${username}`)
         console.log(`Password is ${password}`)
         const selectedUrl = mode === 'LOCAL' 
-            ? 'http://192.168.1.220'
+            ? 'https://192.168.1.220'
             : 'https://dabloat.tech'
         console.log(`Link is ${selectedUrl}`)
 

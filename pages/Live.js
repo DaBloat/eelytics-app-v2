@@ -46,7 +46,7 @@ export default function Live({ route }){
 
     useEffect(() => {
         const fetchLiveData = async () => {
-            const response = await fetch(`${baseUrl}/api/mdt/live`)
+            const response = await fetch(`${baseUrl}/api/dt/live_eel`)
             const data = await response.json()
 
             if ( data.size !== 0 && data.group !== 'NONE'){
@@ -329,10 +329,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginHorizontal: 10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        padding: 5
     },
     batch_button_text: {
         color: 'white',
+        fontWeight: 'bold',
         padding: 5,
         fontSize: 14
     }

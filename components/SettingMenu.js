@@ -1,127 +1,130 @@
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 export default function SettingMenu({state, setState}) {
     return (
         <Modal visible={state} transparent={true} animationIn="slideInRight" animationOut="slideOutRight">
-            <View style={styles.modal_container} >
-                <View style={styles.menu}>
-                    <View style={styles.back_button_container}>
-                        <TouchableOpacity onPress={setState} styles={styles.back_button}>
-                            <MaterialCommunityIcons name={'arrow-right-thin'} size={30} color={'gray'}/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.menu_button_containers}>
-                        <Text style={styles.title}>
-                            Options
-                        </Text>
-                    </View>
-                    <View style={styles.menu_button_containers}>
-                        <View style={styles.subtitle_container}>
-                            <MaterialCommunityIcons name={'gate'} color={'white'} size={16}/>
-                            <Text style={styles.subtitle}>
-                                Test Gates:
-                            </Text>
-                        </View>
-                        <View style={styles.test_button_container}>
-                            <TouchableOpacity style={[styles.test_button, {backgroundColor: '#00D4FF'}]}>
-                                <Text style={styles.test_button_text}>
-                                    ELVER
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[styles.test_button, {backgroundColor: '#FF3131'}]}>
-                                <Text style={styles.test_button_text}>
-                                    TABLE
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[styles.test_button, {backgroundColor: '#00FF41'}]}>
-                                <Text style={styles.test_button_text}>
-                                    KUROKO
-                                </Text>
+            <SafeAreaProvider>
+                <SafeAreaView style={styles.modal_container} >
+                    <View style={styles.menu}>
+                        <View style={styles.back_button_container}>
+                            <TouchableOpacity onPress={setState} styles={styles.back_button}>
+                                <MaterialCommunityIcons name={'arrow-right-thin'} size={30} color={'gray'}/>
                             </TouchableOpacity>
                         </View>
-                    </View>
-                    <View style={styles.menu_button_containers}>
-                        <View style={styles.subtitle_container}>
-                            <MaterialCommunityIcons name={'chip'} color={'white'} size={16}/>
-                            <Text style={styles.subtitle}>
-                                System Health:
+                        <View style={styles.menu_button_containers}>
+                            <Text style={styles.title}>
+                                Options
                             </Text>
                         </View>
-                        <View style={styles.component_container}>
-                            <TouchableOpacity style={styles.component_button}>
-                                <MaterialCommunityIcons name={'server-network'} color={'white'}/>
-                                <Text style={styles.component_button_text}>
-                                    Model Server
+                        <View style={styles.menu_button_containers}>
+                            <View style={styles.subtitle_container}>
+                                <MaterialCommunityIcons name={'gate'} color={'white'} size={16}/>
+                                <Text style={styles.subtitle}>
+                                    Test Gates:
                                 </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.component_button}>
-                                <MaterialCommunityIcons name={'raspberry-pi'} color={'white'}/>
-                                <Text style={styles.component_button_text}>
-                                    Raspberry Pi
+                            </View>
+                            <View style={styles.test_button_container}>
+                                <TouchableOpacity style={[styles.test_button, {backgroundColor: '#00D4FF'}]}>
+                                    <Text style={styles.test_button_text}>
+                                        ELVER
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.test_button, {backgroundColor: '#FF3131'}]}>
+                                    <Text style={styles.test_button_text}>
+                                        TABLE
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.test_button, {backgroundColor: '#00FF41'}]}>
+                                    <Text style={styles.test_button_text}>
+                                        KUROKO
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style={styles.menu_button_containers}>
+                            <View style={styles.subtitle_container}>
+                                <MaterialCommunityIcons name={'chip'} color={'white'} size={16}/>
+                                <Text style={styles.subtitle}>
+                                    System Health:
                                 </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.component_button}>
-                                <MaterialCommunityIcons name={'integrated-circuit-chip'} color={'white'}/>
-                                <Text style={styles.component_button_text}>
-                                    Gate ESP32
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.component_button}>
-                                <MaterialCommunityIcons name={'integrated-circuit-chip'} color={'white'}/>
-                                <Text style={styles.component_button_text}>
-                                    Tank ESP32
+                            </View>
+                            <View style={styles.component_container}>
+                                <TouchableOpacity style={styles.component_button}>
+                                    <MaterialCommunityIcons name={'server-network'} color={'white'}/>
+                                    <Text style={styles.component_button_text}>
+                                        Model Server
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.component_button}>
+                                    <MaterialCommunityIcons name={'raspberry-pi'} color={'white'}/>
+                                    <Text style={styles.component_button_text}>
+                                        Raspberry Pi
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.component_button}>
+                                    <MaterialCommunityIcons name={'integrated-circuit-chip'} color={'white'}/>
+                                    <Text style={styles.component_button_text}>
+                                        Gate ESP32
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.component_button}>
+                                    <MaterialCommunityIcons name={'integrated-circuit-chip'} color={'white'}/>
+                                    <Text style={styles.component_button_text}>
+                                        Tank ESP32
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style={styles.menu_button_containers}>
+                            <TouchableOpacity style={styles.menu_button}>
+                                <MaterialCommunityIcons name={'information'} color={'white'} size={16}/>
+                                <Text style={styles.menu_button_text}>
+                                    Information
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
-                    <View style={styles.menu_button_containers}>
-                        <TouchableOpacity style={styles.menu_button}>
-                            <MaterialCommunityIcons name={'information'} color={'white'} size={16}/>
-                            <Text style={styles.menu_button_text}>
-                                Information
+                        <View style={styles.menu_button_containers}>
+                            <TouchableOpacity style={styles.menu_button}>
+                                <MaterialCommunityIcons name={'gavel'} color={'white'} size={16}/>
+                                <Text style={styles.menu_button_text}>
+                                    Legal
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.menu_button_containers}>
+                            <TouchableOpacity style={styles.menu_button}>
+                                <MaterialCommunityIcons name={'bug-outline'} color={'white'} size={16}/>
+                                <Text style={styles.menu_button_text}>
+                                    Feedback
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.menu_button_containers}>
+                            <TouchableOpacity style={styles.menu_button}>
+                                <MaterialCommunityIcons name={'trash-can'} color={'white'} size={16}/>
+                                <Text style={styles.menu_button_text}>
+                                    Delete Account
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.menu_button_containers}>
+                            <TouchableOpacity style={styles.menu_button}>
+                                <MaterialCommunityIcons name={'logout'} color={'white'} size={16}/>
+                                <Text style={styles.menu_button_text}>
+                                    Log Out
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.copyright_foot}>
+                            <Text style={styles.copyright_text}>
+                                © 2025 Eelytics All Rights Reserved
                             </Text>
-                        </TouchableOpacity>
+                        </View>
                     </View>
-                    <View style={styles.menu_button_containers}>
-                        <TouchableOpacity style={styles.menu_button}>
-                            <MaterialCommunityIcons name={'gavel'} color={'white'} size={16}/>
-                            <Text style={styles.menu_button_text}>
-                                Legal
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.menu_button_containers}>
-                        <TouchableOpacity style={styles.menu_button}>
-                            <MaterialCommunityIcons name={'bug-outline'} color={'white'} size={16}/>
-                            <Text style={styles.menu_button_text}>
-                                Feedback
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.menu_button_containers}>
-                        <TouchableOpacity style={styles.menu_button}>
-                            <MaterialCommunityIcons name={'trash-can'} color={'white'} size={16}/>
-                            <Text style={styles.menu_button_text}>
-                                Delete Account
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.menu_button_containers}>
-                        <TouchableOpacity style={styles.menu_button}>
-                            <MaterialCommunityIcons name={'logout'} color={'white'} size={16}/>
-                            <Text style={styles.menu_button_text}>
-                                Log Out
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.copyright_foot}>
-                        <Text style={styles.copyright_text}>
-                            © 2025 Eelytics All Rights Reserved
-                        </Text>
-                    </View>
-                </View>
-            </View>
+                </SafeAreaView>
+            </SafeAreaProvider>
         </Modal>
     )
 }
