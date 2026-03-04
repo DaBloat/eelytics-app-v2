@@ -239,7 +239,6 @@ const styles = StyleSheet.create({
     },
     size_container: {
         width: '50%',
-        backgroundColor: 'red',
         alignItems: 'center',
         borderWidth: 2,
         borderRadius: 10,
@@ -249,7 +248,6 @@ const styles = StyleSheet.create({
     },
     group_container: {
         width: '50%',
-        backgroundColor: 'blue',
         alignItems: 'center',
         borderWidth: 2,
         borderRadius: 10,
