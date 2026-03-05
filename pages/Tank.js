@@ -5,13 +5,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 export default function Tank({ route }){
     const animatedLevel = useRef(new Animated.Value(0)).current
     const [tankStatus, setTankStatus] = useState({'action' : "NONE", 'water_level': 0})
-    const [tankControl, setTankControl] = useState({"mode": 'NONE', "maintain": 10})
+    const [tankControl, setTankControl] = useState({"mode": 'NONE', "maintain": 0})
     const { baseUrl } = route.params
 
     const tankStatusColor = (info) => {
         if (info === 'water_level') {
-            let upper = tankControl.maintain + 0.2
-            let lower = tankControl.maintain - 0.2
+            let upper = tankControl?.maintain + 0.2
+            let lower = tankControl?.maintain - 0.2
             if ( lower <= tankStatus.water_level && tankStatus.water_level <= upper) {
                 return '#00FF41'
             }
@@ -21,27 +21,45 @@ export default function Tank({ route }){
         }
         if (info === 'action') {
             if (tankStatus.action === 'FILLING') {
-                return '#00FF41'
+                return '#00D4FF'
             }
             if (tankStatus.action === 'DRAINING') {
                 return '#FF3131'
             }
+            if (tankStatus.action === 'MAINTAINED') {
+                return '#00FF41'
+            }
+            if (tankStatus.action === 'MANUAL_STOP') {
+                return '#FFFF00'
+            }
             else {
                 return 'white'
+            }
+        }
+        if (info === 'mode'){
+            if (tankControl.mode === 'AUTO') {
+                return '#00FF41'
+            }
+            if (tankControl.mode === 'MANUAL') {
+                return '#FF8C00'
+            }
+            if (tankControl.mode === 'NONE') {
+                return '#808080'
             }
         }
     }
 
     useEffect(() => {
         const fetchTankStats = async () => {
-            const response = await fetch(`${baseUrl}/api/dt/live_tank`)
+            const response = await fetch(`${baseUrl}/api/dt/live_tank_all`)
             const data = await response.json()
 
-            setTankStatus(data)
+            setTankStatus(data.status)
+            setTankControl(data.opts)
 
             Animated.timing(animatedLevel, {
-            toValue: data.water_level,
-            duration: 500,
+            toValue: data.status.water_level,
+            duration: 90,
             useNativeDriver: false
             }).start()
         }
@@ -67,7 +85,7 @@ export default function Tank({ route }){
                 <View style={styles.tank_info_card_container}>
                     <View style={styles.tank_info_card}>
                         <Text style={[styles.tank_info_text, { color: tankStatusColor('water_level')}]} >
-                            {tankStatus.water_level} cm
+                            {(tankStatus.water_level).toFixed(2)} cm
                         </Text>
                         <View style={styles.tank_info_card_title_container}>
                             <Text style={styles.tank_info_card_title}>
@@ -111,13 +129,13 @@ export default function Tank({ route }){
                 <TouchableOpacity style={[styles.button, { backgroundColor: '#2C2C2E' }]}>
                     <MaterialCommunityIcons name='tune-variant' color={'white'} size={24}/>
                     <Text style={styles.button_text}>
-                        Edit Setting
+                        Start/Reset
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, { backgroundColor: '#006DFF' }]}>
-                    <MaterialCommunityIcons name='water-plus' color={'white'} size={24}/>
+                <TouchableOpacity style={[styles.button, { backgroundColor: '#2C2C2E' }]}>
+                    <MaterialCommunityIcons name='tune-variant' color={'white'} size={24}/>
                     <Text style={styles.button_text}>
-                        Add Water
+                        Edit Setting
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, { backgroundColor: '#D32F2F' }]}>
@@ -190,8 +208,8 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     tank_info_text: {
-        padding: 5,
-        fontSize: 19,
+        padding: 6,
+        fontSize: 18,
         fontWeight: 'bold'
     },
     button_container: {
