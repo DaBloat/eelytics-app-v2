@@ -8,10 +8,41 @@ export default function Tank({ route }){
     const [tankControl, setTankControl] = useState({"mode": 'NONE', "maintain": 0})
     const { baseUrl } = route.params
 
+    const handleStart = async() => {
+        const reset = await fetch(`${baseUrl}/api/dt/update_tank_options`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                },
+                body: JSON.stringify({
+                    mode: 'NONE',
+                    maintain: 0
+                })
+            }
+        )
+        const data_reset = await reset.json()
+        console.log(data_reset)
+        const start = await fetch(`${baseUrl}/api/dt/update_tank_options`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                },
+                body: JSON.stringify({
+                    mode: "AUTO",
+                    maintain: 3.5
+                })
+            }
+        )
+        const data_start = await start.json()
+        console.log(data_start)
+    }
+
     const tankStatusColor = (info) => {
         if (info === 'water_level') {
-            let upper = tankControl?.maintain + 0.2
-            let lower = tankControl?.maintain - 0.2
+            let upper = tankControl.maintain + 0.2
+            let lower = tankControl.maintain - 0.2
             if ( lower <= tankStatus.water_level && tankStatus.water_level <= upper) {
                 return '#00FF41'
             }
@@ -104,7 +135,7 @@ export default function Tank({ route }){
                         </View>
                     </View>
                     <View style={styles.tank_info_card}>
-                        <Text style={[styles.tank_info_text, { color: 'white'}]} >
+                        <Text style={[styles.tank_info_text, { color: tankStatusColor('mode')}]} >
                             {tankControl.mode}
                         </Text>
                         <View style={styles.tank_info_card_title_container}>
@@ -126,8 +157,8 @@ export default function Tank({ route }){
                 </View>
             </View>
             <View style={styles.button_container}>
-                <TouchableOpacity style={[styles.button, { backgroundColor: '#2C2C2E' }]}>
-                    <MaterialCommunityIcons name='tune-variant' color={'white'} size={24}/>
+                <TouchableOpacity style={[styles.button, { backgroundColor: '#4CAF50' }]} onPress={handleStart}>
+                    <MaterialCommunityIcons name='power-standby' color={'white'} size={24}/>
                     <Text style={styles.button_text}>
                         Start/Reset
                     </Text>
