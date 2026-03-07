@@ -1,12 +1,19 @@
-import { View, Text, TouchableOpacity, Animated, StyleSheet, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Animated, StyleSheet, Image, TextInput} from 'react-native'
 import { useEffect, useRef, useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import GeneralModal from '../components/GeneralModal'
  
 export default function Tank({ route }){
     const animatedLevel = useRef(new Animated.Value(0)).current
+    const [isMenu, setMenu] = useState(false)
     const [tankStatus, setTankStatus] = useState({'action' : "NONE", 'water_level': 0})
     const [tankControl, setTankControl] = useState({"mode": 'NONE', "maintain": 0})
+    const [maintainValue, setMaintainValue] = useState(`${tankControl.maintain}`)
     const { baseUrl } = route.params
+
+    const toggleMenu = () => {
+        setMenu(!isMenu)
+    }
 
     const handleStart = async() => {
         const reset = await fetch(`${baseUrl}/api/dt/update_tank_options`,
@@ -22,7 +29,7 @@ export default function Tank({ route }){
             }
         )
         const data_reset = await reset.json()
-        console.log(data_reset)
+        await new Promise(resolve => setTimeout(resolve, 150));
         const start = await fetch(`${baseUrl}/api/dt/update_tank_options`,
             {
                 method: 'POST',
@@ -74,8 +81,8 @@ export default function Tank({ route }){
             if (tankControl.mode === 'MANUAL') {
                 return '#FF8C00'
             }
-            if (tankControl.mode === 'NONE') {
-                return '#808080'
+            if (tankControl.mode === 'WAITING') {
+                return '#FFFF00'
             }
         }
     }
@@ -86,7 +93,12 @@ export default function Tank({ route }){
             const data = await response.json()
 
             setTankStatus(data.status)
-            setTankControl(data.opts)
+            if (data.status.action === "MANUAL_STOP"){
+                setTankControl({"mode": 'WAITING', "maintain": 999})
+            }
+            else {
+                setTankControl(data.opts)
+            }
 
             Animated.timing(animatedLevel, {
             toValue: data.status.water_level,
@@ -163,7 +175,7 @@ export default function Tank({ route }){
                         Start/Reset
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, { backgroundColor: '#2C2C2E' }]}>
+                <TouchableOpacity style={[styles.button, { backgroundColor: '#2C2C2E' }]} onPress={toggleMenu}>
                     <MaterialCommunityIcons name='tune-variant' color={'white'} size={24}/>
                     <Text style={styles.button_text}>
                         Edit Setting
@@ -176,6 +188,24 @@ export default function Tank({ route }){
                     </Text>
                 </TouchableOpacity>
             </View>
+            <GeneralModal state={isMenu} onClose={toggleMenu} height={'35%'} width={'55%'}>
+                <View style={styles.edit_control_container}>
+                    <View style={styles.maintain_container}>
+                        <Text style={styles.maintain_text}>
+                            Maintain at:
+                        </Text>
+                        <TextInput style={styles.maintain_input_text}
+                                   value={maintainValue}
+                                   onChangeText={setMaintainValue}
+                                   keyboardType='numeric'>
+                        </TextInput>
+                    </View>
+
+                    <Text>
+                        Mode:
+                    </Text>
+                </View>
+            </GeneralModal>
         </View>
     )
 }
@@ -265,6 +295,30 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginHorizontal: 7,
         fontSize: 14,
+        padding: 10
+    },
+    edit_control_container: {
+        margin: 20,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    maintain_container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    maintain_input_text: {
+        flex: 1,
+        color: 'white',
+        fontWeight: 16,
+        height: 35,
+        borderBottomWidth: 2,
+        borderColor: 'rgba(0, 122, 255, 1)',
+    },
+    maintain_text: {
+        color: 'white',
+        fontWeight: 16,
+        fontWeight: 'bold',
         padding: 10
     }
 })

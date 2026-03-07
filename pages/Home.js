@@ -27,7 +27,7 @@ export default function Home({ navigation, route }) {
     return (
         <SafeAreaProvider>
             <Header title={routeName} seeMenu={toggleMenu}/>
-            <SettingMenu state={isMenu} setState={toggleMenu}/>
+            <SettingMenu state={isMenu} setState={toggleMenu} onClose={toggleMenu}/>
             <SafeAreaView style={{ flex:1 }}>
                 <Tab.Navigator
                     screenListeners={{

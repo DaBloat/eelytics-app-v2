@@ -2,9 +2,9 @@ import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-export default function SettingMenu({state, setState}) {
+export default function SettingMenu({state, setState, onClose}) {
     return (
-        <Modal visible={state} transparent={true} animationIn="slideInRight" animationOut="slideOutRight">
+        <Modal visible={state} transparent={true} animationIn="slideInRight" animationOut="slideOutRight" onRequestClose={onClose}>
             <SafeAreaProvider>
                 <SafeAreaView style={styles.modal_container} >
                     <View style={styles.menu}>
