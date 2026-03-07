@@ -9,10 +9,29 @@ export default function Tank({ route }){
     const [tankStatus, setTankStatus] = useState({'action' : "NONE", 'water_level': 0})
     const [tankControl, setTankControl] = useState({"mode": 'NONE', "maintain": 0})
     const [maintainValue, setMaintainValue] = useState(`${tankControl.maintain}`)
+    const [modeValue, setModeValue] = useState(`${tankControl.mode}`)
     const { baseUrl } = route.params
 
     const toggleMenu = () => {
         setMenu(!isMenu)
+    }
+
+    const handleEdit = async() => {
+        const start = await fetch(`${baseUrl}/api/dt/update_tank_options`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                },
+                body: JSON.stringify({
+                    mode: modeValue,
+                    maintain: maintainValue
+                })
+            }
+        )
+        const data_start = await start.json()
+        console.log(data_start)
+        toggleMenu()
     }
 
     const handleStart = async() => {
@@ -181,14 +200,8 @@ export default function Tank({ route }){
                         Edit Setting
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, { backgroundColor: '#D32F2F' }]}>
-                    <MaterialCommunityIcons name='water-minus' color={'white'} size={24}/>
-                    <Text style={styles.button_text}>
-                        Drain Water
-                    </Text>
-                </TouchableOpacity>
             </View>
-            <GeneralModal state={isMenu} onClose={toggleMenu} height={'35%'} width={'55%'}>
+            <GeneralModal state={isMenu} onClose={toggleMenu} height={'20%'} width={'55%'}>
                 <View style={styles.edit_control_container}>
                     <View style={styles.maintain_container}>
                         <Text style={styles.maintain_text}>
@@ -200,10 +213,20 @@ export default function Tank({ route }){
                                    keyboardType='numeric'>
                         </TextInput>
                     </View>
-
-                    <Text>
+                    <View style={styles.maintain_container}>
+                                            <Text style={styles.maintain_text}>
                         Mode:
                     </Text>
+                    <TextInput style={styles.maintain_input_text}
+                                value={modeValue}
+                               onChangeText={setModeValue}>
+                    </TextInput>
+                    </View>
+                    <TouchableOpacity style={styles.save_button} onPress={handleEdit}>
+                            <Text style={styles.save_button_text}>
+                                SAVE
+                            </Text>
+                    </TouchableOpacity>
                 </View>
             </GeneralModal>
         </View>
@@ -320,5 +343,21 @@ const styles = StyleSheet.create({
         fontWeight: 16,
         fontWeight: 'bold',
         padding: 10
-    }
+    },
+    save_button: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 15,
+        width: '55%',
+        height: 50,
+        borderRadius: 10,
+        backgroundColor: 'rgba(0, 122, 255, 1)'
+    },
+    save_button_text: {
+        color: 'white',
+        fontWeight: 'bold',
+        marginHorizontal: 7,
+        fontSize: 14,
+        padding: 10
+    },
 })
