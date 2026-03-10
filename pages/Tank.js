@@ -201,7 +201,7 @@ export default function Tank({ route }){
                     </Text>
                 </TouchableOpacity>
             </View>
-            <GeneralModal state={isMenu} onClose={toggleMenu} height={'20%'} width={'55%'}>
+            <GeneralModal state={isMenu} onClose={toggleMenu} height={'30%'} width={'65%'}>
                 <View style={styles.edit_control_container}>
                     <View style={styles.maintain_container}>
                         <Text style={styles.maintain_text}>
@@ -212,21 +212,44 @@ export default function Tank({ route }){
                                    onChangeText={setMaintainValue}
                                    keyboardType='numeric'>
                         </TextInput>
+                        <Text style={styles.inch_text}>
+                            in
+                        </Text>
                     </View>
-                    <View style={styles.maintain_container}>
-                                            <Text style={styles.maintain_text}>
-                        Mode:
-                    </Text>
-                    <TextInput style={styles.maintain_input_text}
-                                value={modeValue}
-                               onChangeText={setModeValue}>
-                    </TextInput>
-                    </View>
-                    <TouchableOpacity style={styles.save_button} onPress={handleEdit}>
-                            <Text style={styles.save_button_text}>
-                                SAVE
+                    <View style={styles.mode_container}>
+                            <Text style={styles.mode_text}>
+                                Mode:
                             </Text>
-                    </TouchableOpacity>
+                            <View style={styles.modal_button_container}>
+                                <TouchableOpacity style={styles.mode_button}>
+                                    <Text style={styles.mode_button_text}>
+                                        AUTO
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.mode_button}>
+                                    <Text style={styles.mode_button_text}>
+                                        MANUAL
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.mode_button}>
+                                    <Text style={styles.mode_button_text}>
+                                        NONE
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                    </View>
+                    <View style={styles.modal_button_container}>
+                        <TouchableOpacity style={[styles.modal_button, {backgroundColor: 'rgba(0, 122, 255, 1)'}]} onPress={handleEdit}>
+                                <Text style={styles.save_button_text}>
+                                    SAVE
+                                </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.modal_button, {backgroundColor: '#FF3131'}]} onPress={toggleMenu}>
+                                <Text style={styles.save_button_text}>
+                                    CANCEL
+                                </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </GeneralModal>
         </View>
@@ -297,7 +320,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     button_container: {
-        margin: 25,
+        margin: 20,
         justifyContent: 'center',
         alignItems: 'center',
         borderTopWidth: 2,
@@ -323,35 +346,80 @@ const styles = StyleSheet.create({
     edit_control_container: {
         margin: 20,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flex: 1,
     },
     maintain_container: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        width: '90%',
+        padding: 10
     },
     maintain_input_text: {
         flex: 1,
         color: 'white',
         fontWeight: 16,
-        height: 35,
+        height: 35  ,
         borderBottomWidth: 2,
         borderColor: 'rgba(0, 122, 255, 1)',
     },
     maintain_text: {
         color: 'white',
-        fontWeight: 16,
+        fontSize: 16,
         fontWeight: 'bold',
+        paddingHorizontal:  10
+    },
+    inch_text: {
+        color: 'white',
+        fontWeight: 16,
+        fontWeight: 'bold', 
+        paddingHorizontal: 10
+    },
+    mode_container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '90%',
+        marginBottom: 15,
+        borderTopWidth: 1,
+        borderTopColor: 'rgba(255, 255, 255, 0.2)',
         padding: 10
     },
-    save_button: {
+    modal_button_container: {
+        flexDirection: 'row',
+        alignContent: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    mode_text: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+        paddingHorizontal:  10,
+        marginBottom: 10
+    },
+    mode_button: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 15,
-        width: '55%',
+        margin: 5,
+        width: '30%',
+        height: 50,
+        borderRadius: 25,
+        borderWidth: 1,
+        borderColor: 'rgba(0, 122, 255, 1)'
+    },
+    mode_button_text: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 12
+    },
+    modal_button: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 5,
+        width: '45%',
         height: 50,
         borderRadius: 10,
-        backgroundColor: 'rgba(0, 122, 255, 1)'
     },
     save_button_text: {
         color: 'white',
