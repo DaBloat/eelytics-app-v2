@@ -33,7 +33,7 @@ export default function SettingMenu({state, setState, onClose}) {
                                 </TouchableOpacity>
                                 <TouchableOpacity style={[styles.test_button, {backgroundColor: '#FF3131'}]}>
                                     <Text style={styles.test_button_text}>
-                                        TABLE
+                                        EEL-GATE
                                     </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={[styles.test_button, {backgroundColor: '#00FF41'}]}>

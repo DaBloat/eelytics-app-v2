@@ -1,9 +1,16 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
 export default function Dashboard({ navigation }){
     return (
-        <View>
+        <View style={styles.dashboard_container}>
             <Text>Dashboard</Text>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    dashboard_container: {
+        margin: 30,
+        backgroundColor: 'red'
+    }
+})
