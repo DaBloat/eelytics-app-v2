@@ -16,6 +16,10 @@ export default function Tank({ route }){
         setMenu(!isMenu)
     }
 
+    const isModeActive = (currentMode) => {
+        return currentMode === modeValue ? 'rgba(0, 122, 255, 1)' : 'transparent'
+    }
+
     const handleEdit = async() => {
         const start = await fetch(`${baseUrl}/api/dt/update_tank_options`,
             {
@@ -201,8 +205,13 @@ export default function Tank({ route }){
                     </Text>
                 </TouchableOpacity>
             </View>
-            <GeneralModal state={isMenu} onClose={toggleMenu} height={'30%'} width={'65%'}>
+            <GeneralModal state={isMenu} onClose={toggleMenu} height={'35%'} width={'65%'}>
                 <View style={styles.edit_control_container}>
+                    <View style={styles.modal_title}>
+                        <Text style={styles.modal_title_text}>
+                            Edit Tank Settings
+                        </Text>
+                    </View>
                     <View style={styles.maintain_container}>
                         <Text style={styles.maintain_text}>
                             Maintain at:
@@ -221,17 +230,17 @@ export default function Tank({ route }){
                                 Mode:
                             </Text>
                             <View style={styles.modal_button_container}>
-                                <TouchableOpacity style={styles.mode_button}>
+                                <TouchableOpacity style={[styles.mode_button, {backgroundColor: isModeActive("AUTO")}]} onPress={() => {setModeValue("AUTO")}}>
                                     <Text style={styles.mode_button_text}>
                                         AUTO
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.mode_button}>
+                                <TouchableOpacity style={[styles.mode_button, {backgroundColor: isModeActive("MANUAL")}]} onPress={() => {setModeValue("MANUAL")}}>
                                     <Text style={styles.mode_button_text}>
                                         MANUAL
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.mode_button}>
+                                <TouchableOpacity style={[styles.mode_button, {backgroundColor: isModeActive("NONE")}]} onPress={() => {setModeValue("NONE")}}>
                                     <Text style={styles.mode_button_text}>
                                         NONE
                                     </Text>
@@ -349,12 +358,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1,
     },
+    modal_title: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10
+    },
+    modal_title_text: {
+        fontSize: 18,
+        color: 'white',
+        fontWeight: 'bold'
+    },
     maintain_container: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         width: '90%',
-        padding: 10
+        padding: 10,
+        borderTopWidth: 1,
+        borderTopColor: 'rgba(255, 255, 255, 0.2)',
     },
     maintain_input_text: {
         flex: 1,
@@ -366,13 +387,13 @@ const styles = StyleSheet.create({
     },
     maintain_text: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
         paddingHorizontal:  10
     },
     inch_text: {
         color: 'white',
-        fontWeight: 16,
+        fontWeight: 14,
         fontWeight: 'bold', 
         paddingHorizontal: 10
     },
@@ -383,6 +404,8 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         borderTopWidth: 1,
         borderTopColor: 'rgba(255, 255, 255, 0.2)',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(255, 255, 255, 0.2)',
         padding: 10
     },
     modal_button_container: {
@@ -393,7 +416,7 @@ const styles = StyleSheet.create({
     },
     mode_text: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
         paddingHorizontal:  10,
         marginBottom: 10
@@ -406,7 +429,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 25,
         borderWidth: 1,
-        borderColor: 'rgba(0, 122, 255, 1)'
+        borderColor: 'rgba(0, 122, 255, 1)',
     },
     mode_button_text: {
         color: 'white',
@@ -416,7 +439,7 @@ const styles = StyleSheet.create({
     modal_button: {
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 5,
+
         width: '45%',
         height: 50,
         borderRadius: 10,
