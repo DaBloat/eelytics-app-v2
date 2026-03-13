@@ -131,7 +131,7 @@ export default function LoginScr({ navigation }) {
             </TouchableOpacity>
 
             <View style={styles.forgot_button_container}>
-                <TouchableOpacity style={styles.forgot_button}>
+                <TouchableOpacity style={styles.forgot_button} onPress={() => {navigation.replace('Home', { baseUrl: 'NULL' })}}>
                     <Text style={styles.forgot_button_text}>Forgot Password?</Text>
                 </TouchableOpacity>
             </View>
@@ -147,11 +147,11 @@ export default function LoginScr({ navigation }) {
             </TouchableOpacity>
 
             <View style={styles.mode_button_container}>
-                            <TouchableOpacity onPress={() => {setMode(mode === 'API' ? 'LOCAL' : 'API')}}>
-                    <Text style={styles.mode_button} >
-                        {mode}
-                    </Text>
-            </TouchableOpacity>
+                <TouchableOpacity onPress={() => {setMode(mode === 'API' ? 'LOCAL' : 'API')}}>
+                        <Text style={styles.mode_button} >
+                            {mode}
+                        </Text>
+                </TouchableOpacity>
             </View>
 
             <PopUp states={statesPop} setStates={setStatesPop}/>

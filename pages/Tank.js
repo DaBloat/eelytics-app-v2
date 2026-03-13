@@ -107,6 +107,9 @@ export default function Tank({ route }){
             if (tankControl.mode === 'WAITING') {
                 return '#FFFF00'
             }
+            else {
+                return 'white'
+            }
         }
     }
 
