@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 export default function Dashboard({ navigation }){
     const [greeting, setGreeting] = useState("")
     const [currentTime, setCurrentTime] = useState(new Date())
-    const dummy = 'Dominic'
+    const dummy = 'Test User'
 
     useEffect(() => {
         const getGreeting = () => {
@@ -44,16 +44,46 @@ export default function Dashboard({ navigation }){
                             {greeting}
                         </Text>
                         <Text style = {styles.datetime}>
-                            {currentTime.toLocaleDateString()} - {currentTime.toLocaleTimeString()}
+                            It's {currentTime.toLocaleDateString()} - {currentTime.toLocaleTimeString()}
                         </Text>
                     </View>
                 </View>
             </View>
             <View style={styles.info_container}>
                 <View style={styles.active_card}>
-                    <Text style={styles.sample_text}>
-                         Average Size & Count
-                    </Text>
+                    <View style={styles.average_card}>
+                        <View style={styles.average_container}>
+                            <View style={[styles.size_eel, {backgroundColor: '#00D4FF'}]}>
+                                <Text style={styles.size_eel_count}>
+                                    00
+                                </Text>
+                                <Text style={styles.size_eel_title}>
+                                    ELVER
+                                </Text>
+                            </View>
+                            <View style={[styles.size_eel, {backgroundColor: '#00FF41'}]}>
+                                <Text style={styles.size_eel_count}>
+                                    00
+                                </Text>
+                                <Text style={styles.size_eel_title}>
+                                    KUROKO
+                                </Text>
+                            </View>
+                           <View style={[styles.size_eel, {backgroundColor: '#FF3131'}]}>
+                                <Text style={styles.size_eel_count}>
+                                    00
+                                </Text>
+                                <Text style={styles.size_eel_title}>
+                                    TABLE
+                                </Text>
+                            </View>
+                        </View>
+                        <View style={styles.average_title}>
+                            <Text style={styles.average_title_text}>
+                                Average Sizes (inches)
+                            </Text>
+                        </View>
+                    </View>
                 </View>
                     <View style={styles.active_logo_container}>
                         <Text style={styles.count_text}>
@@ -121,7 +151,7 @@ const styles = StyleSheet.create({
     active_logo_container: {
         backgroundColor: 'rgba(30, 30, 30, 0.8)',
         borderRadius: 10,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: 'rgba(0, 122, 255, 1)',
         margin: 5,
         height: 100,
@@ -131,7 +161,7 @@ const styles = StyleSheet.create({
     },
     active_card: {
         backgroundColor: 'rgba(30, 30, 30, 0.8)',
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: 'rgba(0, 122, 255, 1)',
         borderRadius: 10,
         width: 225,
@@ -139,7 +169,7 @@ const styles = StyleSheet.create({
     },
     latter_info: {
         backgroundColor: 'rgba(30, 30, 30, 0.8)',
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: 'rgba(0, 122, 255, 1)',
         width: '100%',
         borderRadius: 10,
@@ -190,12 +220,54 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderTopWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.2)'
+        borderColor: 'rgba(255, 255, 255, 0.2)',
     },
     count_title: {
         color: 'white',
         fontWeight: 'bold',
         fontSize: 12,
         paddingTop: 5
+    },
+    average_card: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    average_title: {
+        width: '65%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderTopWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.2)'
+    },
+    average_title_text: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 12,
+        paddingTop: 5
+    },
+    average_container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+        marginVertical: 5,
+        paddingHorizontal: 15
+    },
+    size_eel: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 55,
+        width: 55,
+        borderRadius: 10
+    },
+    size_eel_count: {
+        fontSize: 25,
+        color: 'rgba(30, 30, 30, 1)',
+        fontWeight: 'bold'
+    },
+    size_eel_title: {
+        fontSize: 12,
+        color: 'rgba(30, 30, 30, 1)',
+        fontWeight: 'bold'
     }
 })

@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
     },
     modal_button_container: {
         flexDirection: 'row',
-        alignContent: 'center',
+        alignItems: 'center',
         justifyContent: 'space-between',
         width: '100%',
     },
