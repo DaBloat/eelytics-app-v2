@@ -1,24 +1,35 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
+import { WebView } from 'react-native-webview'
 import { useState, useEffect } from 'react'
 
 export default function Dashboard({ navigation }){
     const [greeting, setGreeting] = useState("")
     const [currentTime, setCurrentTime] = useState(new Date())
+    const [timeState, setTimeState] = useState('morning')
+    const timeStateDict = {
+        'morning' : require('../assets/morning.png'),
+        'noon' : require('../assets/noon.png'),
+        'night' : require('../assets/night.png')
+    }
     const dummy = 'Test User'
 
     useEffect(() => {
         const getGreeting = () => {
             const currentHour = new Date().getHours()
             if (currentHour < 12) {
+                setTimeState('morning')
                 return `Good Morning, ${dummy}!`
             }
             else if (currentHour === 12) {
+                setTimeState('noon')
                 return `Good Noon, ${dummy}!`
             }
             else if (currentHour < 18) {
+                setTimeState('noon')
                 return `Good Afternoon, ${dummy}!`
             }
             else {
+                setTimeState('night')
                 return `Good Evening, ${dummy}!`
             }
         }
@@ -36,7 +47,7 @@ export default function Dashboard({ navigation }){
         <View style={styles.dashboard_container}>
             <View style={styles.info_container}>
                 <View style={styles.greeting_logo_container}>
-                    <Image source={require('../assets/success.png')} style={{width: 45, height: 45}}/>
+                    <Image source={timeStateDict[timeState]} style={{width: 75, height: 75}}/>
                 </View>
                 <View style={styles.greeting_card}>
                     <View style={styles.greeting_container}>
@@ -101,9 +112,15 @@ export default function Dashboard({ navigation }){
                     <Image source={require('../assets/success.png')} style={styles.active_logo}/>
                 </View>
                 <View style={styles.active_card}>
-                    <Text style={styles.sample_text}>
-                         Live Eel
-                    </Text>
+                        <WebView
+                            source={{ uri: "http://192.168.1.220/cam/",
+                                    headers: { 'ngrok-skip-browser-warning': 'true' }
+                            }}
+                            style={{ flex:1, height: 0 }}
+                            scrollEnabled={true}
+                            mediaPlaybackRequiresUserAction={false}
+                            allowsInlineMediaPlayback={true}
+                        />      
                 </View>
             </View>
             <View style={styles.info_container}>
