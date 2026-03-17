@@ -208,7 +208,7 @@ export default function Tank({ route }){
                     </Text>
                 </TouchableOpacity>
             </View>
-            <GeneralModal state={isMenu} onClose={toggleMenu} height={'35%'} width={'65%'}>
+            <GeneralModal state={isMenu} onClose={toggleMenu} height={'40%'} width={'70%'}>
                 <View style={styles.edit_control_container}>
                     <View style={styles.modal_title}>
                         <Text style={styles.modal_title_text}>
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        height: '100%',
+        height: 315,
     },
     tank_water_level: {
         width: '100%',
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     button_container: {
-        margin: 20,
+        marginTop: 50,
         justifyContent: 'center',
         alignItems: 'center',
         borderTopWidth: 2,

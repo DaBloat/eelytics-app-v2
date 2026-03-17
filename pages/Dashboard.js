@@ -131,6 +131,11 @@ export default function Dashboard({ navigation }){
                             allowsInlineMediaPlayback={true}
                         />   
                     </View>
+                    <View style={styles.live_eel_info}>
+                        <Text>
+                            Pop
+                        </Text>
+                    </View>
                 </View>
             </View>
             <View style={styles.info_container}>
@@ -301,5 +306,13 @@ const styles = StyleSheet.create({
         flex: 1, 
         overflow: 'hidden', 
         borderRadius: 8
+    },
+    live_eel_info: {
+         zIndex: 1, 
+         backgroundColor: 'rgba(30, 30, 30, 0.4)', 
+         position: 'absolute', 
+         height: '100%', 
+         width: '100%',
+         borderRadius: 8
     }
 })
