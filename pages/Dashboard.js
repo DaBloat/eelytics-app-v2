@@ -112,15 +112,25 @@ export default function Dashboard({ navigation }){
                     <Image source={require('../assets/success.png')} style={styles.active_logo}/>
                 </View>
                 <View style={styles.active_card}>
+                    <View style={styles.webview_container}>
                         <WebView
-                            source={{ uri: "http://192.168.1.220/cam/",
-                                    headers: { 'ngrok-skip-browser-warning': 'true' }
+                            source={{ 
+                                uri: "http://192.168.1.220/cam/",
+                                headers: { 'ngrok-skip-browser-warning': 'true' }
                             }}
-                            style={{ flex:1, height: 0 }}
-                            scrollEnabled={true}
+                            style={{ 
+                                flex: 1, 
+                                height: 300, 
+                                transform: [
+                                    { scale: 2.3 },
+                                    { rotate: '90deg' }
+                                ],
+                            }}
+                            scrollEnabled={false}
                             mediaPlaybackRequiresUserAction={false}
                             allowsInlineMediaPlayback={true}
-                        />      
+                        />   
+                    </View>
                 </View>
             </View>
             <View style={styles.info_container}>
@@ -286,5 +296,10 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: 'rgba(30, 30, 30, 1)',
         fontWeight: 'bold'
+    },
+    webview_container: {
+        flex: 1, 
+        overflow: 'hidden', 
+        borderRadius: 8
     }
 })
