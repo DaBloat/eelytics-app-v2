@@ -132,9 +132,16 @@ export default function Dashboard({ navigation }){
                         />   
                     </View>
                     <View style={styles.live_eel_info}>
-                        <Text>
-                            Pop
-                        </Text>
+                            <View style={styles.group_container}>
+                                <Text style={styles.info_text}>
+                                    KUROKO
+                                </Text>
+                            <View style={styles.info_title_container}>
+                                <Text style={styles.info_title_text}>
+                                    Live Detected Group Size
+                                </Text>
+                            </View>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -309,10 +316,34 @@ const styles = StyleSheet.create({
     },
     live_eel_info: {
          zIndex: 1, 
-         backgroundColor: 'rgba(30, 30, 30, 0.4)', 
+         backgroundColor: 'rgba(30, 30, 30, 1)', 
          position: 'absolute', 
          height: '100%', 
          width: '100%',
-         borderRadius: 8
-    }
+         borderRadius: 8,
+         justifyContent: 'center',
+    },
+    group_container: {
+        alignItems: 'center',
+        width: '100%'
+    },
+    info_title_container: {
+        width: '75%',
+        borderTopWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.2)',
+        paddingBottom: 5,
+        alignItems: 'center'
+    },
+    info_title_text: {
+        fontSize: 14,
+        color: 'white',
+        fontWeight: 'bold',
+        padding: 3,
+    },
+    info_text: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: 'white',
+        padding: 5
+    },
 })

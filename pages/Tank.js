@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        height: 315,
+        height: 275,
     },
     tank_water_level: {
         width: '100%',
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     button_container: {
-        marginTop: 50,
+        marginTop: 25,
         justifyContent: 'center',
         alignItems: 'center',
         borderTopWidth: 2,
