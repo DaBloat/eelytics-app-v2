@@ -278,18 +278,17 @@ const styles = StyleSheet.create({
     tank_info_container: {
         flexDirection: 'row',
         width: '100%',
-        height: 275,
+        gap: 10
     },
     tank: {
         borderWidth: 2,
         borderRadius: 10,
         width: '50%',
-        marginRight: 5,
         backgroundColor: 'rgba(30, 30, 30, 1)',
         overflow: 'hidden',
         justifyContent: 'flex-end',
         alignItems: 'center',
-        height: 275,
+        height: 300,
     },
     tank_water_level: {
         width: '100%',
@@ -302,17 +301,17 @@ const styles = StyleSheet.create({
         zIndex: 1
     },
     tank_info_card_container: {
-        width: '45%',
-        marginLeft: 5
+        flex: 1
     },
     tank_info_card: {
+        flex: 1,
         borderRadius:10,
         borderWidth: 2,
         borderColor: 'rgba(0, 122, 255, 1)',
         backgroundColor: 'rgba(30, 30, 30, 0.8)',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 10
+        marginBottom: 8
     },
     tank_info_card_title: {
         color: 'white',

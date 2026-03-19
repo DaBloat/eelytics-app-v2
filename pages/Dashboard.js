@@ -6,6 +6,9 @@ export default function Dashboard({ navigation }){
     const [greeting, setGreeting] = useState("")
     const [currentTime, setCurrentTime] = useState(new Date())
     const [timeState, setTimeState] = useState('morning')
+    const [detection, setDetected] = useState(false)
+    const [action, setAction] = useState(false)
+    const [system, setSystem] = useState(false)
     const timeStateDict = {
         'morning' : require('../assets/morning.png'),
         'noon' : require('../assets/noon.png'),
@@ -34,14 +37,12 @@ export default function Dashboard({ navigation }){
             }
         }
     setGreeting(getGreeting())
-    },[])
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentTime(new Date())
-        }, 1000)
-        return () => clearInterval(timer)
-    }, [])
+    const timer = setInterval(() => {
+        setCurrentTime(new Date())
+    }, 1000)
+    return () => clearInterval(timer)
+    },[])
 
     return (
         <View style={styles.dashboard_container}>
@@ -66,7 +67,7 @@ export default function Dashboard({ navigation }){
                         <View style={styles.average_container}>
                             <View style={[styles.size_eel, {backgroundColor: '#00D4FF'}]}>
                                 <Text style={styles.size_eel_count}>
-                                    00
+                                    3.14
                                 </Text>
                                 <Text style={styles.size_eel_title}>
                                     ELVER
@@ -74,7 +75,7 @@ export default function Dashboard({ navigation }){
                             </View>
                             <View style={[styles.size_eel, {backgroundColor: '#00FF41'}]}>
                                 <Text style={styles.size_eel_count}>
-                                    00
+                                    6.14
                                 </Text>
                                 <Text style={styles.size_eel_title}>
                                     KUROKO
@@ -82,7 +83,7 @@ export default function Dashboard({ navigation }){
                             </View>
                            <View style={[styles.size_eel, {backgroundColor: '#FF3131'}]}>
                                 <Text style={styles.size_eel_count}>
-                                    00
+                                    7.14
                                 </Text>
                                 <Text style={styles.size_eel_title}>
                                     TABLE
@@ -98,7 +99,7 @@ export default function Dashboard({ navigation }){
                 </View>
                     <View style={styles.active_logo_container}>
                         <Text style={styles.count_text}>
-                            999
+                            -
                         </Text>
                         <View style={styles.count_title_container}>
                             <Text style={styles.count_title}>
@@ -109,7 +110,8 @@ export default function Dashboard({ navigation }){
             </View>
             <View style={styles.info_container}>
                 <View style={styles.active_logo_container}>
-                    <Image source={require('../assets/success.png')} style={styles.active_logo}/>
+                    {detection ? <Image source={require('../assets/eel_detected.png')} style={styles.active_logo}/> : 
+                                 <Image source={require('../assets/eel_not_detected.png')} style={styles.active_logo}/>}
                 </View>
                 <View style={styles.active_card}>
                     <View style={styles.webview_container}>
@@ -134,7 +136,7 @@ export default function Dashboard({ navigation }){
                     <View style={styles.live_eel_info}>
                             <View style={styles.group_container}>
                                 <Text style={styles.info_text}>
-                                    KUROKO
+                                    -
                                 </Text>
                             <View style={styles.info_title_container}>
                                 <Text style={styles.info_title_text}>
@@ -152,12 +154,14 @@ export default function Dashboard({ navigation }){
                     </Text>
                 </View>
                 <View style={styles.active_logo_container}>
-                    <Image source={require('../assets/success.png')} style={styles.active_logo}/>
+                    {action ? <Image source={require('../assets/eel_fill.png')} style={styles.active_logo}/> : 
+                              <Image source={require('../assets/eel_drain.png')} style={styles.active_logo}/>}
                 </View>
             </View>
             <View style={styles.info_container}>
                 <View style={styles.active_logo_container}>
-                    <Image source={require('../assets/success.png')} style={styles.active_logo}/>
+                    {system ? <Image source={require('../assets/system-true.png')} style={styles.active_logo}/> : 
+                              <Image source={require('../assets/system-false.png')} style={styles.active_logo}/>}
                 </View>
                 <View style={styles.active_card}>
                     <Text style={styles.sample_text}>
@@ -181,8 +185,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     active_logo: {
-        height: 75,
-        width: 75,
+        height: 95,
+        width: 95,
     },
     info_container: {
         flexDirection: 'row',
@@ -218,7 +222,7 @@ const styles = StyleSheet.create({
     greeting_logo_container: {
         backgroundColor: 'rgba(30, 30, 30, 0.8)',
         borderRadius: 10,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: 'rgba(0, 122, 255, 1)',
         margin: 5,
         height: 60,
@@ -228,7 +232,7 @@ const styles = StyleSheet.create({
     },
     greeting_card: {
         backgroundColor: 'rgba(30, 30, 30, 0.8)',
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: 'rgba(0, 122, 255, 1)',
         borderRadius: 10,
         width: 225,
@@ -316,7 +320,7 @@ const styles = StyleSheet.create({
     },
     live_eel_info: {
          zIndex: 1, 
-         backgroundColor: 'rgba(30, 30, 30, 1)', 
+         backgroundColor: 'rgba(30, 30, 30, 0.6)', 
          position: 'absolute', 
          height: '100%', 
          width: '100%',
