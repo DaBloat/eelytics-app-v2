@@ -47,7 +47,7 @@ export default function SettingMenu({state, setState, onClose}) {
                             <View style={styles.subtitle_container}>
                                 <MaterialCommunityIcons name={'chip'} color={'white'} size={16}/>
                                 <Text style={styles.subtitle}>
-                                    System Health:
+                                    System Info:
                                 </Text>
                             </View>
                             <View style={styles.component_container}>

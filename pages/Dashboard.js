@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Animated } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-export default function Dashboard({ navigation }){
+export default function Dashboard({ route }){
+    const animatedLevel = useRef(new Animated.Value(0)).current
     const [greeting, setGreeting] = useState("")
     const [currentTime, setCurrentTime] = useState(new Date())
     const [timeState, setTimeState] = useState('morning')
@@ -14,6 +15,7 @@ export default function Dashboard({ navigation }){
         'noon' : require('../assets/noon.png'),
         'night' : require('../assets/night.png')
     }
+    const { baseUrl } = route.params
     const dummy = 'Test User'
 
     useEffect(() => {
@@ -44,6 +46,30 @@ export default function Dashboard({ navigation }){
     return () => clearInterval(timer)
     },[])
 
+    useEffect(() => {
+        const fetchTankStats = async () => {
+            const response = await fetch(`${baseUrl}/api/dt/live_tank_all`)
+            const data = await response.json()
+
+            Animated.timing(animatedLevel, {
+            toValue: data.status.water_level,
+            duration: 90,
+            useNativeDriver: false
+            }).start()
+
+        }
+        fetchTankStats()
+        const intervalId = setInterval(fetchTankStats, 100)
+
+        return () => clearInterval(intervalId)
+    }, [])
+
+    const waterLevelPercentage = animatedLevel.interpolate({
+        inputRange: [0, 15],
+        outputRange: ['0%', '100%'],
+        extrapolate: 'clamp', 
+    });
+
     return (
         <View style={styles.dashboard_container}>
             <View style={styles.info_container}>
@@ -64,10 +90,10 @@ export default function Dashboard({ navigation }){
             <View style={styles.info_container}>
                 <View style={styles.active_card}>
                     <View style={styles.average_card}>
-                        <View style={styles.average_container}>
+                        <View style={styles.common_container}>
                             <View style={[styles.size_eel, {backgroundColor: '#00D4FF'}]}>
                                 <Text style={styles.size_eel_count}>
-                                    3.14
+                                    -
                                 </Text>
                                 <Text style={styles.size_eel_title}>
                                     ELVER
@@ -75,7 +101,7 @@ export default function Dashboard({ navigation }){
                             </View>
                             <View style={[styles.size_eel, {backgroundColor: '#00FF41'}]}>
                                 <Text style={styles.size_eel_count}>
-                                    6.14
+                                    -
                                 </Text>
                                 <Text style={styles.size_eel_title}>
                                     KUROKO
@@ -83,7 +109,7 @@ export default function Dashboard({ navigation }){
                             </View>
                            <View style={[styles.size_eel, {backgroundColor: '#FF3131'}]}>
                                 <Text style={styles.size_eel_count}>
-                                    7.14
+                                    -
                                 </Text>
                                 <Text style={styles.size_eel_title}>
                                     TABLE
@@ -133,8 +159,8 @@ export default function Dashboard({ navigation }){
                             allowsInlineMediaPlayback={true}
                         />   
                     </View>
-                    <View style={styles.live_eel_info}>
-                            <View style={styles.group_container}>
+                    <View style={[styles.eel_info, { backgroundColor: 'rgba(30, 30, 30, 0.6)' }]}>
+                        <View style={styles.group_container}>
                                 <Text style={styles.info_text}>
                                     -
                                 </Text>
@@ -149,9 +175,21 @@ export default function Dashboard({ navigation }){
             </View>
             <View style={styles.info_container}>
                 <View style={styles.active_card}>
-                    <Text style={styles.sample_text}>
-                         Live Tank
-                    </Text>
+                    <View style={[styles.eel_info, { backgroundColor: 'rgba(30, 30, 30, 0.6)' }]}>
+                        <View style={styles.group_container}>
+                                <Text style={styles.info_text}>
+                                    -
+                                </Text>
+                            <View style={styles.info_title_container}>
+                                <Text style={styles.info_title_text}>
+                                    Live Detected Water Level
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={styles.tank}>
+                        <Animated.View height={waterLevelPercentage} style={styles.tank_water_level}/>
+                    </View>
                 </View>
                 <View style={styles.active_logo_container}>
                     {action ? <Image source={require('../assets/eel_fill.png')} style={styles.active_logo}/> : 
@@ -164,15 +202,49 @@ export default function Dashboard({ navigation }){
                               <Image source={require('../assets/system-false.png')} style={styles.active_logo}/>}
                 </View>
                 <View style={styles.active_card}>
-                    <Text style={styles.sample_text}>
-                         I DOn't Know Yet!
-                    </Text>
+                    <View style={styles.eel_info}>
+                        <View style={styles.group_container}>
+                            <View style={styles.common_container}>
+                                <View style={[styles.sys_stat, {backgroundColor: '#FF3131'}]}>
+                                    <Text style={styles.sys_stat_bool}>
+                                        ERR
+                                    </Text>
+                                    <Text style={styles.sys_stat_title}>
+                                        MODEL
+                                    </Text>
+                                </View>
+                                <View style={[styles.sys_stat, {backgroundColor: '#FF3131'}]}>
+                                    <Text style={styles.sys_stat_bool}>
+                                        ERR
+                                    </Text>
+                                    <Text style={styles.sys_stat_title}>
+                                        GATE
+                                    </Text>
+                                </View>
+                                <View style={[styles.sys_stat, {backgroundColor: '#FF3131'}]}>
+                                    <Text style={styles.sys_stat_bool}>
+                                        ERR
+                                    </Text>
+                                    <Text style={styles.sys_stat_title}>
+                                        TANK
+                                    </Text>
+                                </View>
+                            </View>
+                            <View style={styles.info_title_container}>
+                                <Text style={styles.info_title_text}>
+                                    System Status
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
                 </View>
             </View>
             <View style={styles.latter_info}>
-                <Text style={styles.sample_text}>
-                    System Info
-                </Text>
+                <View>
+                    <Text>
+                        POP
+                    </Text>
+                </View>
             </View>
         </View>
     )
@@ -208,6 +280,7 @@ const styles = StyleSheet.create({
         borderColor: 'rgba(0, 122, 255, 1)',
         borderRadius: 10,
         width: 225,
+        height: 100,
         margin: 5
     },
     latter_info: {
@@ -288,7 +361,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         paddingTop: 5
     },
-    average_container: {
+    common_container: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -318,9 +391,8 @@ const styles = StyleSheet.create({
         overflow: 'hidden', 
         borderRadius: 8
     },
-    live_eel_info: {
+    eel_info: {
          zIndex: 1, 
-         backgroundColor: 'rgba(30, 30, 30, 0.6)', 
          position: 'absolute', 
          height: '100%', 
          width: '100%',
@@ -349,5 +421,35 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         padding: 5
+    },
+    tank: {
+        borderRadius: 8,
+        overflow: 'hidden',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        height: '100%'
+    },
+    tank_water_level: {
+        width: '100%',
+        backgroundColor: 'rgba(0, 122, 255, 1)',
+    },
+    sys_stat: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 55,
+        width: 55,
+        borderRadius: 10
+    },
+    sys_stat_bool: {
+        fontSize: 25,
+        color: 'rgba(30, 30, 30, 1)',
+        fontWeight: 'bold'
+    },
+    sys_stat_title: {
+        borderTopWidth: 1,
+        borderColor: 'rgba(30, 30, 30, 0.6)',
+        fontSize: 12,
+        color: 'rgba(30, 30, 30, 1)',
+        fontWeight: 'bold',
     },
 })
