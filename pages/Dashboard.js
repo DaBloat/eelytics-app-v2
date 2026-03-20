@@ -202,7 +202,6 @@ export default function Dashboard({ route }){
                               <Image source={require('../assets/system-false.png')} style={styles.active_logo}/>}
                 </View>
                 <View style={styles.active_card}>
-                    <View style={styles.eel_info}>
                         <View style={styles.group_container}>
                             <View style={styles.common_container}>
                                 <View style={[styles.sys_stat, {backgroundColor: '#FF3131'}]}>
@@ -232,18 +231,39 @@ export default function Dashboard({ route }){
                             </View>
                             <View style={styles.info_title_container}>
                                 <Text style={styles.info_title_text}>
-                                    System Status
+                                    System Health
                                 </Text>
                             </View>
                         </View>
-                    </View>
                 </View>
             </View>
             <View style={styles.latter_info}>
-                <View>
-                    <Text>
-                        POP
-                    </Text>
+                <View style={styles.group_container}>
+                    <View>
+                        <View>
+                            <Text>
+                                CPU
+                            </Text>
+                            <Animated.View/>
+                        </View>
+                        <View>
+                            <Text>
+                                RAM
+                            </Text>
+                            <Animated.View/>
+                        </View>
+                        <View>
+                            <Text>
+                                STORAGE
+                            </Text>
+                            <Animated.View/>
+                        </View>
+                    </View>
+                    <View style={styles.info_title_container}>
+                        <Text style={styles.info_title_text}>
+                            System Status
+                        </Text>
+                    </View>
                 </View>
             </View>
         </View>
@@ -346,7 +366,8 @@ const styles = StyleSheet.create({
     },
     average_card: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginVertical: 5
     },
     average_title: {
         width: '65%',
@@ -401,7 +422,8 @@ const styles = StyleSheet.create({
     },
     group_container: {
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        marginVertical: 5
     },
     info_title_container: {
         width: '75%',
