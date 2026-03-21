@@ -239,24 +239,30 @@ export default function Dashboard({ route }){
             </View>
             <View style={styles.latter_info}>
                 <View style={styles.group_container}>
-                    <View>
-                        <View>
-                            <Text>
+                    <View style={styles.per_stat_container}> 
+                        <View style={styles.per_stat}>
+                            <Text style={styles.per_stat_text}>
                                 CPU
                             </Text>
-                            <Animated.View/>
+                            <View style={styles.stat_bar}>
+                                <Animated.View width={'12%'} style={styles.stat_bar_level}/>
+                            </View>
                         </View>
-                        <View>
-                            <Text>
+                        <View style={styles.per_stat}>
+                            <Text style={styles.per_stat_text}>
                                 RAM
                             </Text>
-                            <Animated.View/>
+                            <View style={styles.stat_bar}>
+                                <Animated.View width={'25%'} style={styles.stat_bar_level}/>
+                            </View>
                         </View>
-                        <View>
-                            <Text>
-                                STORAGE
+                        <View style={styles.per_stat}>
+                            <Text style={styles.per_stat_text}>
+                                BIN
                             </Text>
-                            <Animated.View/>
+                            <View style={styles.stat_bar}>
+                                <Animated.View width={'35%'} style={styles.stat_bar_level}/>
+                            </View>
                         </View>
                     </View>
                     <View style={styles.info_title_container}>
@@ -474,4 +480,31 @@ const styles = StyleSheet.create({
         color: 'rgba(30, 30, 30, 1)',
         fontWeight: 'bold',
     },
+    per_stat_container: {
+        marginHorizontal: 15
+    },
+    per_stat: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        marginVertical: 3,
+    },
+    stat_bar: {
+        width: '87%',
+        height: 10,
+        borderWidth: 1,
+        borderColor: 'red',
+        borderRadius: 10,
+        overflow: 'hidden',
+        flexDirection: 'row',
+    },
+    per_stat_text: {
+        color: 'white',
+        fontWeight: 'bold',
+        width: 35
+    },
+    stat_bar_level: {
+        height: "100%",
+        backgroundColor: 'red'
+    }
 })
