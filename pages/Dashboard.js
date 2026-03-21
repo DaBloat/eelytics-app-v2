@@ -7,14 +7,19 @@ export default function Dashboard({ route }){
     const [greeting, setGreeting] = useState("")
     const [currentTime, setCurrentTime] = useState(new Date())
     const [timeState, setTimeState] = useState('morning')
-    const [detection, setDetected] = useState(false)
+    const [eelData, setEelData] = useState({"group":"NONE", "size": 0})
     const [action, setAction] = useState(false)
+    const [tankData, setTankData] = useState({'opts':{'maintain': 0, 'mode': "NONE"}, 'status':{'action':'NONE', 'water_level': 0}})
     const [system, setSystem] = useState(false)
     const timeStateDict = {
         'morning' : require('../assets/morning.png'),
         'noon' : require('../assets/noon.png'),
         'night' : require('../assets/night.png')
     }
+    const colorGroup = {"ELVER" : '#00D4FF',
+                        "KUROKO" : '#00FF41',
+                        'TABLE': '#FF3131',
+                        'NONE': 'white'}
     const { baseUrl } = route.params
     const dummy = 'Test User'
 
@@ -47,6 +52,29 @@ export default function Dashboard({ route }){
     },[])
 
     useEffect(() => {
+        const fetchLiveData = async() => {
+            const response = await fetch(`${baseUrl}/api/dt/live_eel`)
+            const data = await response.json()
+
+            setEelData(data)
+        }
+
+        const intervalId = setInterval(fetchLiveData, 100)
+        return () => clearInterval(intervalId)
+    },[])
+
+    const maintainColor = () => {
+            let upper = tankData.opts.maintain + 0.2
+            let lower = tankData.opts.maintain - 0.2
+            if ( lower <= tankData.status.water_level && tankData.status.water_level <= upper) {
+                return '#00FF41'
+            }
+            else {
+                return '#FF3131'
+            }
+    }
+
+    useEffect(() => {
         const fetchTankStats = async () => {
             const response = await fetch(`${baseUrl}/api/dt/live_tank_all`)
             const data = await response.json()
@@ -56,6 +84,15 @@ export default function Dashboard({ route }){
             duration: 90,
             useNativeDriver: false
             }).start()
+
+            if (data.status.action === "FILLING") {
+                setAction(true)
+            }
+            else {
+                setAction(false)
+            }
+
+            setTankData(data)
 
         }
         fetchTankStats()
@@ -136,8 +173,8 @@ export default function Dashboard({ route }){
             </View>
             <View style={styles.info_container}>
                 <View style={styles.active_logo_container}>
-                    {detection ? <Image source={require('../assets/eel_detected.png')} style={styles.active_logo}/> : 
-                                 <Image source={require('../assets/eel_not_detected.png')} style={styles.active_logo}/>}
+                    {eelData.group === "NONE" ? <Image source={require('../assets/eel_not_detected.png')} style={styles.active_logo}/> : 
+                                 <Image source={require('../assets/eel_detected.png')} style={styles.active_logo}/>}
                 </View>
                 <View style={styles.active_card}>
                     <View style={styles.webview_container}>
@@ -161,8 +198,8 @@ export default function Dashboard({ route }){
                     </View>
                     <View style={[styles.eel_info, { backgroundColor: 'rgba(30, 30, 30, 0.6)' }]}>
                         <View style={styles.group_container}>
-                                <Text style={styles.info_text}>
-                                    -
+                                <Text style={[styles.info_text, { color: colorGroup[eelData.group] }]}>
+                                    {eelData.group === "NONE" ? "-" : eelData.group}
                                 </Text>
                             <View style={styles.info_title_container}>
                                 <Text style={styles.info_title_text}>
@@ -177,12 +214,12 @@ export default function Dashboard({ route }){
                 <View style={styles.active_card}>
                     <View style={[styles.eel_info, { backgroundColor: 'rgba(30, 30, 30, 0.6)' }]}>
                         <View style={styles.group_container}>
-                                <Text style={styles.info_text}>
-                                    -
+                                <Text style={[styles.info_text, { color: maintainColor() }]}>
+                                    {(tankData.status.water_level).toFixed(2)} cm
                                 </Text>
                             <View style={styles.info_title_container}>
                                 <Text style={styles.info_title_text}>
-                                    Live Detected Water Level
+                                    Live Detected Water Lvl
                                 </Text>
                             </View>
                         </View>
@@ -447,7 +484,6 @@ const styles = StyleSheet.create({
     info_text: {
         fontSize: 30,
         fontWeight: 'bold',
-        color: 'white',
         padding: 5
     },
     tank: {
