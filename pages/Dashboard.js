@@ -85,15 +85,7 @@ export default function Dashboard({ route }){
             useNativeDriver: false
             }).start()
 
-            if (data.status.action === "FILLING") {
-                setAction(true)
-            }
-            else {
-                setAction(false)
-            }
-
             setTankData(data)
-
         }
         fetchTankStats()
         const intervalId = setInterval(fetchTankStats, 100)
@@ -229,7 +221,7 @@ export default function Dashboard({ route }){
                     </View>
                 </View>
                 <View style={styles.active_logo_container}>
-                    {action ? <Image source={require('../assets/eel_fill.png')} style={styles.active_logo}/> : 
+                    {tankData.status.action === "FILLING" ? <Image source={require('../assets/eel_fill.png')} style={styles.active_logo}/> : 
                               <Image source={require('../assets/eel_drain.png')} style={styles.active_logo}/>}
                 </View>
             </View>

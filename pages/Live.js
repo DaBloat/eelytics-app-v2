@@ -49,8 +49,9 @@ export default function Live({ route }){
             const response = await fetch(`${baseUrl}/api/dt/live_eel`)
             const data = await response.json()
 
+            setModelData(data)
+
             if ( data.size !== 0 && data.group !== 'NONE'){
-                setModelData(data)
 
                 setBatchData(prevBatch => {
                     const isDuplicate = prevBatch[0] && 
@@ -123,7 +124,7 @@ export default function Live({ route }){
             <View style={styles.info_container}>
                 <View style={styles.size_container}>
                     <Text style={[styles.info_text, {color: currColor}]}>
-                        {modelData.size}
+                        {modelData.size === 0 ? "-" : modelData.size}
                     </Text>
                     <View style={styles.info_title_container}>
                         <Text style={styles.info_title_text}>
@@ -133,7 +134,7 @@ export default function Live({ route }){
                 </View>
                 <View style={styles.group_container}>
                     <Text style={[styles.info_text, {color: currColor}]}>
-                        {modelData.group}
+                        {modelData.group === "NONE" ? "-" : modelData.group}
                     </Text>
                     <View style={styles.info_title_container}>
                         <Text style={styles.info_title_text}>
