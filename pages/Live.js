@@ -87,8 +87,23 @@ export default function Live({ route }){
         return () => clearInterval(intervalId)
     }, [])
 
-    const saveBatch = () => {
-        return 0
+    const saveBatch = async() => {
+        if ( logs.length > 0 ) {
+            console.log('API Called')
+            const response = await fetch(`${baseUrl}/api/eelsdb/save_batch`,
+            {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    batch_logs: logs
+                })
+            })
+            const data = await response.json()
+            console.log(data)
+            console.log(response.status)
+        } else {
+            console.log('bruh')
+        }
     }
 
     const resetBatch = () => {
@@ -172,7 +187,7 @@ export default function Live({ route }){
                 </View>
             </View>
             <View style={styles.batch_button_container}>
-                <TouchableOpacity style={[styles.batch_button, {backgroundColor: 'green'}]}>
+                <TouchableOpacity style={[styles.batch_button, {backgroundColor: 'green'}]} onPress={saveBatch}>
                     <Text style={styles.batch_button_text}>
                         Save Batch
                     </Text>
