@@ -2,12 +2,19 @@ import { View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { WebView } from 'react-native-webview'
 import { useState, useEffect } from 'react';
+import PopUp from '../components/PopUp';
 
 export default function Live({ route }){
     const [currentStream, setCurrentStream] = useState('cam')
     const [logs, setLogs] = useState([])
     const [batchData, setBatchData] = useState([])
     const [modelData, setModelData] = useState({'size': '-', 'group':'-'})
+    const [statesPop, setStatesPop ] = useState({
+        visible: false,
+        title: '',
+        description: '',
+        status: 'success'
+    })
     const colorGroup = {"ELVER" : '#00D4FF',
                         "KUROKO" : '#00FF41',
                         'TABLE': '#FF3131',
@@ -102,7 +109,12 @@ export default function Live({ route }){
             console.log(data)
             console.log(response.status)
         } else {
-            console.log('bruh')
+            setStatesPop({
+            visible: true,
+            title: 'Huh? Where?',
+            description: 'There is Nothing to save in this batch!',
+            status: 'warning'
+        })
         }
     }
 
@@ -110,6 +122,15 @@ export default function Live({ route }){
         setBatchData([])
         setLogs([])
         setModelData({'size': '-', 'group':'-'})
+        setStatesPop({
+            visible: true,
+            title: 'Reset Successful',
+            description: 'Recorded batch is successfully cleared!',
+            status: 'success'
+        })
+        setTimeout(()=>{
+                    setStatesPop({...statesPop, visible: false}
+                    )}, 1500)
     }
 
     return (
@@ -198,6 +219,8 @@ export default function Live({ route }){
                     </Text>
                 </TouchableOpacity>
             </View>
+
+            <PopUp states={statesPop} setStates={setStatesPop}/>
         </View>
     )
 }
