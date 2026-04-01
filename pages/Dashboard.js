@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, Image, Animated } from 'react-native'
+import { View, Text, StyleSheet, Image, Animated, TouchableOpacity } from 'react-native'
 import { WebView } from 'react-native-webview'
 import { useState, useEffect, useRef } from 'react'
 
-export default function Dashboard({ route }){
+export default function Dashboard({ route, navigation }){
     const animatedLevel = useRef(new Animated.Value(0)).current
     const [greeting, setGreeting] = useState("")
     const [currentTime, setCurrentTime] = useState(new Date())
@@ -117,7 +117,7 @@ export default function Dashboard({ route }){
                 </View>
             </View>
             <View style={styles.info_container}>
-                <View style={styles.active_card}>
+                <TouchableOpacity style={styles.active_card} onPress={()=>{navigation.navigate('Log', { baseUrl: baseUrl })}}>
                     <View style={styles.average_card}>
                         <View style={styles.common_container}>
                             <View style={[styles.size_eel, {backgroundColor: '#00D4FF'}]}>
@@ -147,11 +147,11 @@ export default function Dashboard({ route }){
                         </View>
                         <View style={styles.average_title}>
                             <Text style={styles.average_title_text}>
-                                Average Sizes (inches)
+                                Average Size (inches)
                             </Text>
                         </View>
                     </View>
-                </View>
+                </TouchableOpacity>
                     <View style={styles.active_logo_container}>
                         <Text style={styles.count_text}>
                             -
@@ -168,14 +168,14 @@ export default function Dashboard({ route }){
                     {eelData.group === "NONE" ? <Image source={require('../assets/eel_not_detected.png')} style={styles.active_logo}/> : 
                                  <Image source={require('../assets/eel_detected.png')} style={styles.active_logo}/>}
                 </View>
-                <View style={styles.active_card}>
+                <TouchableOpacity style={styles.active_card} onPress={()=>{navigation.navigate('Live', { baseUrl: baseUrl })}}>
                     <View style={styles.webview_container}>
                         <WebView
                             source={{ 
-                                uri: "http://192.168.1.220/cam/",
+                                uri: `${baseUrl}/cam/`,
                                 headers: { 'ngrok-skip-browser-warning': 'true' }
                             }}
-                            style={{ 
+                            style={{
                                 flex: 1, 
                                 height: 300, 
                                 transform: [
@@ -183,7 +183,7 @@ export default function Dashboard({ route }){
                                     { rotate: '90deg' }
                                 ],
                             }}
-                            scrollEnabled={false}
+                            scrollEnabled={true}
                             mediaPlaybackRequiresUserAction={false}
                             allowsInlineMediaPlayback={true}
                         />   
@@ -200,10 +200,10 @@ export default function Dashboard({ route }){
                             </View>
                         </View>
                     </View>
-                </View>
+                </TouchableOpacity>
             </View>
             <View style={styles.info_container}>
-                <View style={styles.active_card}>
+                <TouchableOpacity style={styles.active_card} onPress={()=>{navigation.navigate('Tank', { baseUrl: baseUrl })}}>
                     <View style={[styles.eel_info, { backgroundColor: 'rgba(30, 30, 30, 0.6)' }]}>
                         <View style={styles.group_container}>
                                 <Text style={[styles.info_text, { color: maintainColor() }]}>
@@ -219,7 +219,7 @@ export default function Dashboard({ route }){
                     <View style={styles.tank}>
                         <Animated.View height={waterLevelPercentage} style={styles.tank_water_level}/>
                     </View>
-                </View>
+                </TouchableOpacity>
                 <View style={styles.active_logo_container}>
                     {tankData.status.action === "FILLING" ? <Image source={require('../assets/eel_fill.png')} style={styles.active_logo}/> : 
                               <Image source={require('../assets/eel_drain.png')} style={styles.active_logo}/>}

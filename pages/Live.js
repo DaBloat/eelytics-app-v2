@@ -108,6 +108,18 @@ export default function Live({ route }){
             const data = await response.json()
             console.log(data)
             console.log(response.status)
+            setStatesPop({
+            visible: true,
+            title: 'Save Successful',
+            description: 'Recorded batch is successfully saved!',
+            status: 'success'
+            })
+            setTimeout(()=>{
+                        setStatesPop({...statesPop, visible: false}
+                        )}, 1500)
+            setBatchData([])
+            setLogs([])
+            setModelData({'size': '-', 'group':'-'})
         } else {
             setStatesPop({
             visible: true,
@@ -130,7 +142,7 @@ export default function Live({ route }){
         })
         setTimeout(()=>{
                     setStatesPop({...statesPop, visible: false}
-                    )}, 1500)
+                    )}, 500)
     }
 
     return (
