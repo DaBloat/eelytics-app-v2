@@ -10,6 +10,7 @@ export default function Dashboard({ route, navigation }){
     const [eelData, setEelData] = useState({"group":"NONE", "size": 0})
     const [action, setAction] = useState(false)
     const [tankData, setTankData] = useState({'opts':{'maintain': 0, 'mode': "NONE"}, 'status':{'action':'NONE', 'water_level': 0}})
+    const [logData, setLogData] = useState({'count': 0, 'avg_elver': 0, 'avg_kuroko': 0, 'avg_table': 0})
     const [system, setSystem] = useState(false)
     const timeStateDict = {
         'morning' : require('../assets/morning.png'),
@@ -57,6 +58,18 @@ export default function Dashboard({ route, navigation }){
             const data = await response.json()
 
             setEelData(data)
+        }
+
+        const intervalId = setInterval(fetchLiveData, 100)
+        return () => clearInterval(intervalId)
+    },[])
+
+    useEffect(() => {
+        const fetchLiveData = async() => {
+            const response = await fetch(`${baseUrl}/api/eelsdb/get_data`)
+            const data = await response.json()
+
+            setLogData(data)
         }
 
         const intervalId = setInterval(fetchLiveData, 100)
@@ -122,7 +135,7 @@ export default function Dashboard({ route, navigation }){
                         <View style={styles.common_container}>
                             <View style={[styles.size_eel, {backgroundColor: '#00D4FF'}]}>
                                 <Text style={styles.size_eel_count}>
-                                    -
+                                    {(logData.avg_elver).toFixed(2)}
                                 </Text>
                                 <Text style={styles.size_eel_title}>
                                     ELVER
@@ -130,7 +143,7 @@ export default function Dashboard({ route, navigation }){
                             </View>
                             <View style={[styles.size_eel, {backgroundColor: '#00FF41'}]}>
                                 <Text style={styles.size_eel_count}>
-                                    -
+                                    {(logData.avg_kuroko).toFixed(2)}
                                 </Text>
                                 <Text style={styles.size_eel_title}>
                                     KUROKO
@@ -138,7 +151,7 @@ export default function Dashboard({ route, navigation }){
                             </View>
                            <View style={[styles.size_eel, {backgroundColor: '#FF3131'}]}>
                                 <Text style={styles.size_eel_count}>
-                                    -
+                                    {(logData.avg_table).toFixed(2)}
                                 </Text>
                                 <Text style={styles.size_eel_title}>
                                     TABLE
@@ -154,7 +167,7 @@ export default function Dashboard({ route, navigation }){
                 </TouchableOpacity>
                     <View style={styles.active_logo_container}>
                         <Text style={styles.count_text}>
-                            -
+                            {logData.count}
                         </Text>
                         <View style={styles.count_title_container}>
                             <Text style={styles.count_title}>
