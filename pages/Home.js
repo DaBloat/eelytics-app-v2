@@ -6,7 +6,6 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Dashboard from './Dashboard'
 import Live from './Live'
 import Tank from './Tank'
-import Account from './Account';
 import Log from './Log';
 
 import AnimateIcon from '../components/AnimateIcon';
@@ -48,8 +47,6 @@ export default function Home({ navigation, route }) {
                                 iconName = focused ? 'camera-enhance' : 'camera-enhance-outline'
                             } else if (route.name === 'Tank') {
                                 iconName = focused ? 'beaker' : 'beaker-outline'
-                            } else if (route.name === 'Account') {
-                                iconName = focused ? "account" : "account-outline"
                             }
 
                             return (
@@ -76,7 +73,6 @@ export default function Home({ navigation, route }) {
                     <Tab.Screen name="Tank" component={Tank} initialParams={{ baseUrl }}/>
                     <Tab.Screen name="Live" component={Live} initialParams={{ baseUrl }}/>
                     <Tab.Screen name="Log" component={Log} initialParams={{ baseUrl }}/>
-                    <Tab.Screen name="Account" component={Account} initialParams={{ baseUrl }}/>
                 </Tab.Navigator>
             </SafeAreaView>
         </SafeAreaProvider>
