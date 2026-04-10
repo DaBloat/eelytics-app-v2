@@ -1,4 +1,4 @@
-import { View, Modal, TouchableOpacity, Text, Image, StyleSheet, ActivityIndicator, Dimensions } from 'react-native'
+import { View, Modal, TouchableOpacity, Text, Image, StyleSheet, ActivityIndicator } from 'react-native'
 
 export default function PopUp({ states, setStates }) {
     const imageEel = { 'success': {img: require('../assets/success.png'),

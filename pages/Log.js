@@ -1,14 +1,43 @@
-import { View, FlatList, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, FlatList, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useState, useEffect } from 'react'
 
-export default function Log({ navigation }){
+export default function Log({ navigation, route }){
+    const { baseUrl } = route.params
+    const [ loading, setLoading ]= useState(false)
+    const [ currentPage, setPage ] = useState(1)
+    const [ logs, setLogs ] = useState([])
+
+    const fetchLogs = async(page) => {
+        setLoading(true)
+        const response = await fetch(`${baseUrl}/api/eelsdb/get_logs?page=${page}&limit=50`)
+        const data = await response.json()
+        setLogs(data.results)
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        fetchLogs(currentPage);
+    }, [currentPage]);
+
     return (
         <View style={styles.log_container}>
             <View style={styles.log_items}>
-                <FlatList
+                { loading ? 
+                (<ActivityIndicator size="large"/>) :
+                (<FlatList
+                    data={logs}
                     showsVerticalScrollIndicator={true}
-                />
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text>{item.date}</Text>
+                                <Text>{item.time}</Text>
+                                <Text>{item.data_group}</Text>
+                                <Text>{item.size}"</Text>
+                            </View>
+                        )}
+                />)}
             </View>
             <View style={styles.button_row}>
                 <TouchableOpacity>
@@ -30,6 +59,7 @@ const styles = StyleSheet.create({
         margin: 30,
     },
     log_items: {
+        padding: 25,
         borderRadius: 10,
         borderWidth: 2,
         borderColor: 'rgba(0, 122, 255, 1)',
