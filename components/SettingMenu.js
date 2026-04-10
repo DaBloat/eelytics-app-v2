@@ -1,15 +1,36 @@
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { useState } from 'react'
+import PopUp from './PopUp'
 
-export default function SettingMenu({state, setState, onClose}) {
+export default function SettingMenu({state, setState, onClose, navigation}) {
+    const [statesPop, setStatesPop ] = useState({
+        visible: false,
+        title: '',
+        description: '',
+        status: 'success'
+    })
+
+    const handleLogOut = () => {
+        setStatesPop({
+            visible: true,
+            title: 'Logging Out',
+            description: 'Cleaning the mess we made!',
+            status: 'success'
+        })
+        onClose()
+        setTimeout(()=>{navigation.replace('Login')}, 2000)
+    }
+
     return (
+        <>
         <Modal visible={state} transparent={true} animationIn="slideInRight" animationOut="slideOutRight" onRequestClose={onClose}>
             <SafeAreaProvider>
                 <SafeAreaView style={styles.modal_container} >
                     <View style={styles.menu}>
                         <View style={styles.back_button_container}>
-                            <TouchableOpacity onPress={setState} styles={styles.back_button}>
+                            <TouchableOpacity onPress={setState} style={styles.back_button}>
                                 <MaterialCommunityIcons name={'arrow-right-thin'} size={30} color={'gray'}/>
                             </TouchableOpacity>
                         </View>
@@ -102,15 +123,7 @@ export default function SettingMenu({state, setState, onClose}) {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.menu_button_containers}>
-                            <TouchableOpacity style={styles.menu_button}>
-                                <MaterialCommunityIcons name={'trash-can'} color={'white'} size={16}/>
-                                <Text style={styles.menu_button_text}>
-                                    Delete Account
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.menu_button_containers}>
-                            <TouchableOpacity style={styles.menu_button}>
+                            <TouchableOpacity style={styles.menu_button} onPress={handleLogOut}>
                                 <MaterialCommunityIcons name={'logout'} color={'white'} size={16}/>
                                 <Text style={styles.menu_button_text}>
                                     Log Out
@@ -126,6 +139,8 @@ export default function SettingMenu({state, setState, onClose}) {
                 </SafeAreaView>
             </SafeAreaProvider>
         </Modal>
+        <PopUp states={statesPop} setStates={setStatesPop}/>
+        </>
     )
 }
 

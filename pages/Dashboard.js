@@ -8,7 +8,6 @@ export default function Dashboard({ route, navigation }){
     const [currentTime, setCurrentTime] = useState(new Date())
     const [timeState, setTimeState] = useState('morning')
     const [eelData, setEelData] = useState({"group":"NONE", "size": 0})
-    const [action, setAction] = useState(false)
     const [tankData, setTankData] = useState({'opts':{'maintain': 0, 'mode': "NONE"}, 'status':{'action':'NONE', 'water_level': 0}})
     const [logData, setLogData] = useState({'count': 0, 'avg_elver': 0, 'avg_kuroko': 0, 'avg_table': 0})
     const [system, setSystem] = useState(false)
@@ -22,25 +21,27 @@ export default function Dashboard({ route, navigation }){
                         'TABLE': '#FF3131',
                         'NONE': 'white'}
     const { baseUrl, firstName } = route.params
+    // const test = firstName.first_name
+    const pop = 'TEST'
 
     useEffect(() => {
         const getGreeting = () => {
             const currentHour = new Date().getHours()
             if (currentHour < 12) {
                 setTimeState('morning')
-                return `Good Morning, ${firstName.first_name}!`
+                return `Good Morning, ${pop}!`
             }
             else if (currentHour === 12) {
                 setTimeState('noon')
-                return `Good Noon, ${firstName.first_name}!`
+                return `Good Noon, ${pop}!`
             }
             else if (currentHour < 18) {
                 setTimeState('noon')
-                return `Good Afternoon, ${firstName.first_name}!`
+                return `Good Afternoon, ${pop}!`
             }
             else {
                 setTimeState('night')
-                return `Good Evening, ${firstName.first_name}!`
+                return `Good Evening, ${pop}!`
             }
         }
     setGreeting(getGreeting())

@@ -31,7 +31,7 @@ export default function Log({ navigation, route }){
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                             <View style={{ flexDirection: 'row' }}>
-                                <Text>{item.date}</Text>
+                                <Text>{item.date}</Text>1
                                 <Text>{item.time}</Text>
                                 <Text>{item.data_group}</Text>
                                 <Text>{item.size}"</Text>

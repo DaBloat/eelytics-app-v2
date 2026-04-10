@@ -26,7 +26,7 @@ export default function Home({ navigation, route }) {
     return (
         <SafeAreaProvider>
             <Header title={routeName} seeMenu={toggleMenu}/>
-            <SettingMenu state={isMenu} setState={toggleMenu} onClose={toggleMenu}/>
+            <SettingMenu state={isMenu} setState={toggleMenu} onClose={toggleMenu} navigation={navigation}/>
             <SafeAreaView style={{ flex:1 }}>
                 <Tab.Navigator
                     screenListeners={{
@@ -73,6 +73,7 @@ export default function Home({ navigation, route }) {
                     <Tab.Screen name="Tank" component={Tank} initialParams={{ baseUrl }}/>
                     <Tab.Screen name="Live" component={Live} initialParams={{ baseUrl }}/>
                     <Tab.Screen name="Log" component={Log} initialParams={{ baseUrl }}/>
+
                 </Tab.Navigator>
             </SafeAreaView>
         </SafeAreaProvider>
