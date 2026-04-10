@@ -17,7 +17,7 @@ const Tab = createMaterialTopTabNavigator()
 export default function Home({ navigation, route }) {
     const [routeName, setRouteName] = useState('Dashboard')
     const [isMenu, setMenu] = useState(false)
-    const { baseUrl } = route.params
+    const { baseUrl, firstName } = route.params
 
     const toggleMenu = () => {
         setMenu(!isMenu)
@@ -69,7 +69,7 @@ export default function Home({ navigation, route }) {
                     tabBarShowLabel: false
                 })}
                 >
-                    <Tab.Screen name="Dashboard" component={Dashboard} initialParams={{ baseUrl }}/>
+                    <Tab.Screen name="Dashboard" component={Dashboard} initialParams={{ baseUrl, firstName }}/>
                     <Tab.Screen name="Tank" component={Tank} initialParams={{ baseUrl }}/>
                     <Tab.Screen name="Live" component={Live} initialParams={{ baseUrl }}/>
                     <Tab.Screen name="Log" component={Log} initialParams={{ baseUrl }}/>

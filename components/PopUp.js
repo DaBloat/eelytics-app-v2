@@ -12,7 +12,6 @@ export default function PopUp({ states, setStates }) {
     }
 
     const curr = imageEel[states.status]
-    const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
     return (
         <Modal visible={states.visible} transparent={true} animationType='fade'>

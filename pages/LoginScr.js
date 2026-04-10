@@ -82,7 +82,7 @@ export default function LoginScr({ navigation }) {
                 setTimeout(()=>{
                     setStatesPop({...statesPop, visible: false}
                     )}, 1500)
-                navigation.replace('Home', { baseUrl: selectedUrl })
+                navigation.replace('Home', { baseUrl: selectedUrl, firstName: data.user})
             }
 
         } catch (error) {

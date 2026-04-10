@@ -21,27 +21,26 @@ export default function Dashboard({ route, navigation }){
                         "KUROKO" : '#00FF41',
                         'TABLE': '#FF3131',
                         'NONE': 'white'}
-    const { baseUrl } = route.params
-    const dummy = 'Test User'
+    const { baseUrl, firstName } = route.params
 
     useEffect(() => {
         const getGreeting = () => {
             const currentHour = new Date().getHours()
             if (currentHour < 12) {
                 setTimeState('morning')
-                return `Good Morning, ${dummy}!`
+                return `Good Morning, ${firstName.first_name}!`
             }
             else if (currentHour === 12) {
                 setTimeState('noon')
-                return `Good Noon, ${dummy}!`
+                return `Good Noon, ${firstName.first_name}!`
             }
             else if (currentHour < 18) {
                 setTimeState('noon')
-                return `Good Afternoon, ${dummy}!`
+                return `Good Afternoon, ${firstName.first_name}!`
             }
             else {
                 setTimeState('night')
-                return `Good Evening, ${dummy}!`
+                return `Good Evening, ${firstName.first_name}!`
             }
         }
     setGreeting(getGreeting())
