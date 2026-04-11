@@ -5,9 +5,11 @@ import { useState } from 'react'
 import PopUp from './PopUp'
 import GeneralModal from './GeneralModal'
 import Legal from '../pages/Legal';
+import Information from '../pages/Information';
 
 export default function SettingMenu({state, setState, onClose, navigation}) {
     const [legalState, setLegalState] = useState(false)
+    const [infoState, setInfoState] = useState(false)
     const [statesPop, setStatesPop ] = useState({
         visible: false,
         title: '',
@@ -46,6 +48,11 @@ export default function SettingMenu({state, setState, onClose, navigation}) {
 
     const handleInfo = () => {
         onClose()
+        toggleInfo()
+    }
+
+    const toggleInfo = () => {
+        setInfoState(!infoState)
     }
 
     const modelServer = () => {
@@ -185,6 +192,9 @@ export default function SettingMenu({state, setState, onClose, navigation}) {
         <PopUp states={statesPop} setStates={setStatesPop}/>
         <GeneralModal state={legalState} height={'75%'} width={'90%'} onClose={toggleLegal}>
             <Legal toggleLegal={toggleLegal}/>
+        </GeneralModal>
+        <GeneralModal state={infoState} height={'75%'} width={'90%'} onClose={toggleInfo}>
+            <Information toggleInfo={toggleInfo}/>
         </GeneralModal>
         </>
     )
