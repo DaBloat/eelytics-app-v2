@@ -1,10 +1,12 @@
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { Modal, View, Text, TouchableOpacity, StyleSheet, Linking, Image, ScrollView } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useState } from 'react'
 import PopUp from './PopUp'
+import GeneralModal from './GeneralModal'
 
 export default function SettingMenu({state, setState, onClose, navigation}) {
+    const [legalState, setLegalState] = useState(false)
     const [statesPop, setStatesPop ] = useState({
         visible: false,
         title: '',
@@ -22,6 +24,46 @@ export default function SettingMenu({state, setState, onClose, navigation}) {
         onClose()
         setTimeout(()=>{navigation.replace('Login')}, 2000)
     }
+
+    const  handleFeedback = () => {
+        const email = 'eelyticsadmin@gmail.com'
+        const subject = 'App Feedback'
+        const body = 'Hi Eelytics Team,\n\nI have some feedback regarding...'
+
+        const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+        Linking.openURL(url).catch((err) => console.error("An error occurred", err))
+    }
+
+    const handleLegal = () => {
+        onClose()
+        toggleLegal()
+    }
+
+    const toggleLegal = () => {
+        setLegalState(!legalState)
+    }
+
+    const handleInfo = () => {
+        onClose()
+    }
+
+    const modelServer = () => {
+        onClose()
+    }
+
+    const raspberryPi = () => {
+        onClose()
+    }
+
+    const gateEsp = () => {
+        onClose()
+    }
+
+    const tankEsp = () => {
+        onClose()
+    }
+
+
 
     return (
         <>
@@ -54,7 +96,7 @@ export default function SettingMenu({state, setState, onClose, navigation}) {
                                 </TouchableOpacity>
                                 <TouchableOpacity style={[styles.test_button, {backgroundColor: '#FF3131'}]}>
                                     <Text style={styles.test_button_text}>
-                                        EEL-GATE
+                                        TABLE
                                     </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={[styles.test_button, {backgroundColor: '#00FF41'}]}>
@@ -72,25 +114,25 @@ export default function SettingMenu({state, setState, onClose, navigation}) {
                                 </Text>
                             </View>
                             <View style={styles.component_container}>
-                                <TouchableOpacity style={styles.component_button}>
+                                <TouchableOpacity style={styles.component_button} onPress={modelServer}>
                                     <MaterialCommunityIcons name={'server-network'} color={'white'}/>
                                     <Text style={styles.component_button_text}>
                                         Model Server
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.component_button}>
+                                <TouchableOpacity style={styles.component_button} onPress={raspberryPi}>
                                     <MaterialCommunityIcons name={'raspberry-pi'} color={'white'}/>
                                     <Text style={styles.component_button_text}>
                                         Raspberry Pi
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.component_button}>
+                                <TouchableOpacity style={styles.component_button} onPress={gateEsp}>
                                     <MaterialCommunityIcons name={'integrated-circuit-chip'} color={'white'}/>
                                     <Text style={styles.component_button_text}>
                                         Gate ESP32
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.component_button}>
+                                <TouchableOpacity style={styles.component_button} onPress={tankEsp}>
                                     <MaterialCommunityIcons name={'integrated-circuit-chip'} color={'white'}/>
                                     <Text style={styles.component_button_text}>
                                         Tank ESP32
@@ -99,15 +141,15 @@ export default function SettingMenu({state, setState, onClose, navigation}) {
                             </View>
                         </View>
                         <View style={styles.menu_button_containers}>
-                            <TouchableOpacity style={styles.menu_button}>
+                            <TouchableOpacity style={styles.menu_button} onPress={handleInfo}>
                                 <MaterialCommunityIcons name={'information'} color={'white'} size={16}/>
                                 <Text style={styles.menu_button_text}>
                                     Information
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={styles.menu_button_containers}>
-                            <TouchableOpacity style={styles.menu_button}>
+                        <View style={styles.menu_button_containers} >
+                            <TouchableOpacity style={styles.menu_button} onPress={handleLegal}>
                                 <MaterialCommunityIcons name={'gavel'} color={'white'} size={16}/>
                                 <Text style={styles.menu_button_text}>
                                     Legal
@@ -115,7 +157,7 @@ export default function SettingMenu({state, setState, onClose, navigation}) {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.menu_button_containers}>
-                            <TouchableOpacity style={styles.menu_button}>
+                            <TouchableOpacity style={styles.menu_button} onPress={handleFeedback}>
                                 <MaterialCommunityIcons name={'bug-outline'} color={'white'} size={16}/>
                                 <Text style={styles.menu_button_text}>
                                     Feedback
@@ -140,6 +182,32 @@ export default function SettingMenu({state, setState, onClose, navigation}) {
             </SafeAreaProvider>
         </Modal>
         <PopUp states={statesPop} setStates={setStatesPop}/>
+        <GeneralModal state={legalState} height={'75%'} width={'90%'} onClose={toggleLegal}>
+            
+                <View style={styles.bfar_container}>
+                    <Image source={require('../assets/bfar.png')} style={styles.bfar_logo}/>
+                </View>
+                <View>
+                    <Text style={styles.bfar_order}>
+                        Fisheries Administrative Order No. 242, Series of 2012
+                    </Text>
+                </View>
+                <View>
+                    <Text style={styles.bfar_subject}>
+                        Reinstating the ban on the export of elvers
+                    </Text>
+                </View>
+                <ScrollView>
+                    <Image source={require('../assets/bfar_1.png')} style={styles.bfar_paper}/>
+                    <Image source={require('../assets/bfar_2.png')} style={styles.bfar_paper}/>
+                </ScrollView>
+                <TouchableOpacity onPress={toggleLegal} style={styles.bfar_button}>
+                    <Text style={styles.bfar_button_text}>
+                        OK, Got It!
+                    </Text>
+                </TouchableOpacity>
+            
+        </GeneralModal>
         </>
     )
 }
@@ -256,5 +324,39 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 10,
         padding: 10
+    },
+    bfar_container: {
+        backgroundColor: 'rgba(0, 122, 255, 0.9)',
+        borderRadius: 10,
+        margin: 10
+    },
+    bfar_logo: {
+        height: 75,
+        width: 100
+    },
+    bfar_order: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 10
+    },
+    bfar_subject: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 16,
+        marginBottom: 10
+    },
+    bfar_paper: {
+        height: 400,
+        width: 300
+    },
+    bfar_button: {
+        margin: 5,
+        backgroundColor: 'rgba(0, 122, 255, 0.9)',
+        padding: 15,
+        borderRadius: 10,
+    },
+    bfar_button_text: {
+        color: 'white',
+        fontWeight: 'bold'
     }
 })
